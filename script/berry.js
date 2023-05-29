@@ -1,9 +1,9 @@
-import { optBerry, optPlatform } from "./config three";
-
-
+import { optBerry, optPlatform } from "./config three.js";
 
 export const berry = (() => {
+
     class Berry{
+
         constructor(params) {
             this.params = params;
 
@@ -19,14 +19,17 @@ export const berry = (() => {
                     color: optBerry.color
                 }),
             );
+            this.mesh.position.copy(this.position);
+            params.scene.add(this.mesh);
         }
 
-        updateBerry(){
+        newPositionBerry(){
             this.position = new THREE.Vector3(
                 Math.round(Math.random() * optPlatform.sizeX - optPlatform.sizeX / 2),
                 Math.round(Math.random() * optPlatform.sizeY - optPlatform.sizeY / 2), 
                 Math.round(Math.random() * optPlatform.sizeZ - optPlatform.sizeZ / 2)
             );
+            this.mesh.position.copy(this.position);
         }
     }
     return{

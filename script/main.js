@@ -1,5 +1,6 @@
 import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
 import { snake } from './snake.js';
+import { berry } from './berry.js';
 
 import {
   optCamera,
@@ -7,6 +8,7 @@ import {
   optPlatform,
   optAmbLight,
   optDirLight,
+  optHeadSnake,
 } from "./config three.js";
 
 class World {
@@ -49,6 +51,8 @@ class World {
     controls.target.set(0, 0, 0);
     controls.update();
 
+    this.clock = new THREE.Clock(true);
+
 
     const geometryPlatform = new THREE.BoxGeometry( optPlatform.sizeX, optPlatform.sizeY, optPlatform.sizeZ);
     const material = new THREE.MeshStandardMaterial( { color: optPlatform.color} );
@@ -56,8 +60,35 @@ class World {
     platform.position.set(0, -1, 0);
     this.scene.add( platform );
     this.snake = new snake.Snake({scene: this.scene});
+    this.berry = new berry.Berry({scene: this.scene});
     this.RAF();
   }
+
+  checkColisionsBerry(){
+    if(this.snake.headMesh.position.x === this.berry.mesh.position.x &&
+      this.snake.headMesh.position.y === this.berry.mesh.position.y &&
+      this.snake.headMesh.position.z === this.berry.mesh.position.z){
+        this.snake.grow();
+        this.updateBerry();
+    }
+  }
+
+  updateBerry(){
+    let inTail = true;
+    while(inTail){
+      inTail = false;
+      this.berry.newPositionBerry();
+      for(let i = 1; i < this.snake.tail.length; i++){
+        if(this.snake.tail[i].position.x === this.berry.mesh.position.x &&
+          this.snake.tail[i].position.y === this.berry.mesh.position.y &&
+          this.snake.tail[i].position.z === this.berry.mesh.position.z){
+            inTail = true;
+            break;
+        }
+      }
+    }
+  }
+
 
   onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
@@ -67,7 +98,13 @@ class World {
 
   RAF() {
     requestAnimationFrame(() => {
-      this.snake.update();
+      if(!this.snake.dead){
+        if (this.clock.getElapsedTime() > optHeadSnake.spead) {
+          this.checkColisionsBerry();
+          this.snake.update();
+          this.clock.start();
+        }
+      }
       this.renderer.render(this.scene, this.camera);
       this.RAF();
     });

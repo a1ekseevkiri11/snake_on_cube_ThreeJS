@@ -7,6 +7,7 @@ export const snake = (() => {
         constructor(params) {
             this.params = params;
 
+            this.dead = false;
 
             this.snakeLen = 1;
             this.position = new THREE.Vector3(optHeadSnake.x, optHeadSnake.y, optHeadSnake.z);
@@ -17,19 +18,15 @@ export const snake = (() => {
                     color: optHeadSnake.color
                 }),
             );
+            this.headMesh.position.copy(this.position);
             params.scene.add(this.headMesh);
 
-            this.tailGeometry = new THREE.BoxGeometry(optTailSnake.x, optTailSnake.y, optTailSnake.z);
-            this.tailMaterial = new THREE.MeshLambertMaterial({
+            this.tailGeometry = new THREE.BoxBufferGeometry(optTailSnake.sizeX, optTailSnake.sizeY, optTailSnake.sizeZ);
+            this.tailMaterial = new THREE.MeshStandardMaterial({
                 color: optTailSnake.color,
             });
             this.tail = [];
-            for(let i = 0; i < 10; i++){
-                this.grow();
-            }
-            this.clock = new THREE.Clock(true);
-
-            
+            this.grow();
             this.initInput();
         }
 
@@ -53,29 +50,38 @@ export const snake = (() => {
             this.params.scene.add(this.tail[this.tail.length - 1]);
         }
 
-        update() {
-            if (this.clock.getElapsedTime() > optHeadSnake.spead) {
-                this.tail[0].position.copy(this.position);
-                for(let i = this.tail.length - 1; i >= 1; i--){
-                    this.tail[i].position.copy(this.tail[i-1].position);
-                }
-                switch(this.direction){
-                    case 'up':
-                        this.position.z--;
-                        break;
-                    case 'down':
-                        this.position.z++;
-                        break;
-                    case 'left':
-                        this.position.x--;
-                        break;
-                    case 'right':
-                        this.position.x++;
+        checkColisionsSnake(){
+            for(let i = 1; i < this.tail.length; i++){
+                if(this.headMesh.position.x === this.tail[i].position.x &&
+                    this.headMesh.position.y === this.tail[i].position.y &&
+                    this.headMesh.position.z === this.tail[i].position.z){
+                        this.dead = true;
                         break;
                 }
-                this.headMesh.position.copy(this.position);
-                this.clock.start();
             }
+        }
+
+        update() {
+            this.checkColisionsSnake();
+            for(let i = this.tail.length - 1; i >= 1; i--){
+                this.tail[i].position.copy(this.tail[i-1].position);
+            }
+            this.tail[0].position.copy(this.position);
+            switch(this.direction){
+                case 'up':
+                    this.position.z--;
+                    break;
+                case 'down':
+                    this.position.z++;
+                    break;
+                case 'left':
+                    this.position.x--;
+                    break;
+                case 'right':
+                    this.position.x++;
+                    break;
+            }
+            this.headMesh.position.copy(this.position);
         }
     }
     return {
