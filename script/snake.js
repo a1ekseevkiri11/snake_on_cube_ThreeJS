@@ -1,4 +1,4 @@
-import { optHeadSnake, optTailSnake } from "./config three.js";
+import { optHeadSnake, optTailSnake, optPlatform } from "./config three.js";
 
 
 export const snake = (() => {
@@ -6,12 +6,18 @@ export const snake = (() => {
     class Snake {
         constructor(params) {
             this.params = params;
-
             this.dead = false;
-
-            this.snakeLen = 1;
-            this.position = new THREE.Vector3(optHeadSnake.x, optHeadSnake.y, optHeadSnake.z);
+            this.snakeLen = 0;
+            this.position = new THREE.Vector3(0, (optPlatform.sizeY  + optHeadSnake.sizeY) / 2, 0);
             this.direction = 'up';
+            this.plane = 1;
+            this.headMesh;
+            this.tail = [];
+            this.initSnake();
+            this.initInput();
+        }
+
+        initSnake(){
             this.headMesh = new THREE.Mesh(
                 new THREE.BoxBufferGeometry(optHeadSnake.sizeX,optHeadSnake.sizeY,optHeadSnake.sizeZ),
                 new THREE.MeshStandardMaterial({
@@ -19,15 +25,8 @@ export const snake = (() => {
                 }),
             );
             this.headMesh.position.copy(this.position);
-            params.scene.add(this.headMesh);
-
-            this.tailGeometry = new THREE.BoxBufferGeometry(optTailSnake.sizeX, optTailSnake.sizeY, optTailSnake.sizeZ);
-            this.tailMaterial = new THREE.MeshStandardMaterial({
-                color: optTailSnake.color,
-            });
-            this.tail = [];
+            this.params.scene.add(this.headMesh);
             this.grow();
-            this.initInput();
         }
 
         initInput() {
@@ -46,7 +45,13 @@ export const snake = (() => {
 
         grow(){
             this.snakeLen++;
-            this.tail.push(new THREE.Mesh(this.tailGeometry, this.tailMaterial));
+            const tailMesh = new THREE.Mesh(
+                new THREE.BoxBufferGeometry(optTailSnake.sizeX, optTailSnake.sizeY, optTailSnake.sizeZ),
+                new THREE.MeshStandardMaterial({
+                    color: optTailSnake.color,
+                }),
+            );
+            this.tail.push(tailMesh);
             this.params.scene.add(this.tail[this.tail.length - 1]);
         }
 
@@ -61,26 +66,126 @@ export const snake = (() => {
             }
         }
 
+        checkPlane(){
+            if(this.position.y > (optPlatform.sizeY - optHeadSnake.sizeY) / 2 && this.plane !== 1 && this.plane !== 6){
+                this.plane = 1;
+            }
+            if(this.position.z > (optPlatform.sizeZ - optHeadSnake.sizeZ) / 2 && this.plane !== 2 && this.plane !== 5){
+                this.plane = 2;
+            }
+            if(this.position.z < -(optPlatform.sizeZ - optHeadSnake.sizeZ) / 2 && this.plane !== 2 && this.plane !== 5){
+                this.plane = 5;
+            }
+            if(this.position.y < -(optPlatform.sizeY - optHeadSnake.sizeY) / 2 && this.plane !== 1 && this.plane !== 6){
+                this.plane = 6;
+            }
+        }
+
         update() {
             this.checkColisionsSnake();
             for(let i = this.tail.length - 1; i >= 1; i--){
                 this.tail[i].position.copy(this.tail[i-1].position);
             }
             this.tail[0].position.copy(this.position);
-            switch(this.direction){
-                case 'up':
-                    this.position.z--;
+            switch(this.plane){
+                case 1:
+                    switch(this.direction){
+                        case 'up':
+                            this.position.z--;
+                            break;
+                        case 'down':
+                            this.position.z++;
+                            break;
+                        case 'left':
+                            this.position.x--;
+                            break;
+                        case 'right':
+                            this.position.x++;
+                            break;
+                    }
+                    break;  
+                case 2:
+                    switch(this.direction){
+                        case 'up':
+                            this.position.y++;
+                            break;
+                        case 'down':
+                            this.position.y--;
+                            break;
+                        case 'left':
+                            this.position.x--;
+                            break;
+                        case 'right':
+                            this.position.x++;
+                            break;
+                    }
                     break;
-                case 'down':
-                    this.position.z++;
+                case 3:
+                    switch(this.direction){
+                        case 'up':
+                            this.position.y++;
+                            break;
+                        case 'down':
+                            this.position.y--;
+                            break;
+                        case 'left':
+                            this.position.z++;
+                            break;
+                        case 'right':
+                            this.position.z--;
+                            break;
+                    }
                     break;
-                case 'left':
-                    this.position.x--;
+                case 4:
+                    switch(this.direction){
+                        case 'up':
+                            this.position.y--;
+                            break;
+                        case 'down':
+                            this.position.y++;
+                            break;
+                        case 'left':
+                            this.position.z++;
+                            break;
+                        case 'right':
+                            this.position.z--;
+                            break;
+                    }
                     break;
-                case 'right':
-                    this.position.x++;
+                case 5:
+                    switch(this.direction){
+                        case 'up':
+                            this.position.y--;
+                            break;
+                        case 'down':
+                            this.position.y++;
+                            break;
+                        case 'left':
+                            this.position.x++;
+                            break;
+                        case 'right':
+                            this.position.x--;
+                            break;
+                    }
                     break;
+                case 6:
+                switch(this.direction){
+                    case 'up':
+                        this.position.z++;
+                        break;
+                    case 'down':
+                        this.position.z--;
+                        break;
+                    case 'left':
+                        this.position.x++;
+                        break;
+                    case 'right':
+                        this.position.x--;
+                        break;
+                }
+                break;
             }
+            this.checkPlane();
             this.headMesh.position.copy(this.position);
         }
     }

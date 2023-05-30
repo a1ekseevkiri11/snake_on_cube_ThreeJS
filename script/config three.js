@@ -15,11 +15,8 @@ export const optScene = {
 }
 
 export const optHeadSnake = {
-	x: 0,
-	y: 0,
-	z: 0,
 	sizeX: 1,
-	sizeY: 0.75,
+	sizeY: 1,
 	sizeZ: 1,
 	color: 0x80FFFF,
 	spead: 0.1,
@@ -27,22 +24,22 @@ export const optHeadSnake = {
 
 export const optTailSnake = {
 	sizeX: 1,
-	sizeY: 0.75,
+	sizeY: 1,
 	sizeZ: 1,
 	color: 0x80FF80,
 }
 
 export const optBerry = {
-	sizeX: 0.9,
-	sizeY: 0.9,
-	sizeZ: 0.9,
+	sizeX: 1,
+	sizeY: 1,
+	sizeZ: 1,
 	color: 0x8B0000,
 	satiety: 1,
 }
 
 export const optPlatform = {
 	sizeX: 31,
-	sizeY: 1,
+	sizeY: 31,
 	sizeZ: 31,
 	color: 0x1b222e,
 }

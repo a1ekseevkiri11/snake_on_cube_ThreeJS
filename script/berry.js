@@ -9,7 +9,7 @@ export const berry = (() => {
 
             this.position = new THREE.Vector3(
                 Math.round(Math.random() * optPlatform.sizeX - optPlatform.sizeX / 2),
-                Math.round(Math.random() * optPlatform.sizeY - optPlatform.sizeY / 2), 
+                (optPlatform.sizeY + optBerry.sizeY) / 2, 
                 Math.round(Math.random() * optPlatform.sizeZ - optPlatform.sizeZ / 2)
             );
 
@@ -26,7 +26,7 @@ export const berry = (() => {
         newPositionBerry(){
             this.position = new THREE.Vector3(
                 Math.round(Math.random() * optPlatform.sizeX - optPlatform.sizeX / 2),
-                Math.round(Math.random() * optPlatform.sizeY - optPlatform.sizeY / 2), 
+                (optPlatform.sizeY + optBerry.sizeY) / 2, 
                 Math.round(Math.random() * optPlatform.sizeZ - optPlatform.sizeZ / 2)
             );
             this.mesh.position.copy(this.position);

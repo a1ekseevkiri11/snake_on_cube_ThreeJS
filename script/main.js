@@ -9,6 +9,7 @@ import {
   optAmbLight,
   optDirLight,
   optHeadSnake,
+  optBerry
 } from "./config three.js";
 
 class World {
@@ -57,10 +58,29 @@ class World {
     const geometryPlatform = new THREE.BoxGeometry( optPlatform.sizeX, optPlatform.sizeY, optPlatform.sizeZ);
     const material = new THREE.MeshStandardMaterial( { color: optPlatform.color} );
     const platform = new THREE.Mesh( geometryPlatform, material );
-    platform.position.set(0, -1, 0);
+    platform.position.set(0, 0, 0);
     this.scene.add( platform );
+
+
+
+
+    // const position = new THREE.Vector3(0 ,(optPlatform.sizeY  + optBerry.sizeY) / 2, (optPlatform.sizeX + optBerry.sizeY) / 2);
+    // const mesh = new THREE.Mesh(
+    //   new THREE.BoxBufferGeometry(optBerry.sizeX, optBerry.sizeY, optBerry.sizeZ),
+    //   new THREE.MeshStandardMaterial({
+    //       color: optBerry.color
+    //   }),
+    // );
+    // mesh.position.copy(position);
+    // this.scene.add( mesh );
+
+    
+   
+
+
     this.snake = new snake.Snake({scene: this.scene});
-    this.berry = new berry.Berry({scene: this.scene});
+    // this.berry = new berry.Berry({scene: this.scene});
+    
     this.RAF();
   }
 
@@ -78,7 +98,7 @@ class World {
     while(inTail){
       inTail = false;
       this.berry.newPositionBerry();
-      for(let i = 1; i < this.snake.tail.length; i++){
+      for(let i = 0; i < this.snake.tail.length; i++){
         if(this.snake.tail[i].position.x === this.berry.mesh.position.x &&
           this.snake.tail[i].position.y === this.berry.mesh.position.y &&
           this.snake.tail[i].position.z === this.berry.mesh.position.z){
@@ -100,7 +120,7 @@ class World {
     requestAnimationFrame(() => {
       if(!this.snake.dead){
         if (this.clock.getElapsedTime() > optHeadSnake.spead) {
-          this.checkColisionsBerry();
+          // this.checkColisionsBerry();
           this.snake.update();
           this.clock.start();
         }
