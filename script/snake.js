@@ -1,4 +1,5 @@
 import { optHeadSnake, optTailSnake, optPlatform } from "./config three.js";
+import { berry } from './berry.js';
 
 
 export const snake = (() => {
@@ -8,9 +9,8 @@ export const snake = (() => {
             this.params = params;
             this.dead = false;
             this.snakeLen = 0;
-            this.position = new THREE.Vector3(0, (optPlatform.sizeY  + optHeadSnake.sizeY) / 2, 0);
+            this.position = new THREE.Vector3(0, 0, (optPlatform.sizeY  + optHeadSnake.sizeY) / 2);
             this.direction = 'up';
-            this.plane = 1;
             this.headMesh;
             this.tail = [];
             this.initSnake();
@@ -26,7 +26,9 @@ export const snake = (() => {
             );
             this.headMesh.position.copy(this.position);
             this.params.scene.add(this.headMesh);
-            this.grow();
+            for(let i = 0; i < 50; i++){
+                this.grow();
+            }
         }
 
         initInput() {
@@ -74,31 +76,33 @@ export const snake = (() => {
             //5 this.position.z < -(optPlatform.sizeZ - optHeadSnake.sizeZ) / 2
             //6 this.position.y < -(optPlatform.sizeY - optHeadSnake.sizeY) / 2
 
-            if(this.position.y > (optPlatform.sizeY - optHeadSnake.sizeY) / 2 && this.position.z > (optPlatform.sizeZ - optHeadSnake.sizeZ) / 2){
-                if(this.plane === 1){
-                    this.plane = 2;
+            if(this.position.x < -(optPlatform.sizeX) / 2){
+                this.position.x = (optPlatform.sizeX - optHeadSnake.sizeX) / 2;
+                for(let i = 0; i < this.tail.length; i++){
+                    [this.tail[i].position.x, this.tail[i].position.z] = [this.tail[i].position.z, -this.tail[i].position.x]
                 }
-                else if(this.plane === 2){
-                    this.plane = 1;
-                }
+                return;
             }
-
-            if(this.position.y > (optPlatform.sizeY - optHeadSnake.sizeY) / 2 && this.position.x > (optPlatform.sizeX - optHeadSnake.sizeX) / 2){
-                if(this.plane === 1){
-                    this.plane = 3;
+            if(this.position.x > (optPlatform.sizeX - optHeadSnake.sizeX) / 2){
+                this.position.x = -(optPlatform.sizeX - optHeadSnake.sizeX) / 2;
+                for(let i = 0; i < this.tail.length; i++){
+                    [this.tail[i].position.x, this.tail[i].position.z] = [-this.tail[i].position.z, this.tail[i].position.x]
                 }
-                else if(this.plane === 3){
-                    this.plane = 1;
-                }
+                return;
             }
-
-            if(this.position.z > (optPlatform.sizeZ - optHeadSnake.sizeZ) / 2 && this.position.x > (optPlatform.sizeX - optHeadSnake.sizeX) / 2){
-                if(this.plane === 2){
-                    this.plane = 3;
+            if(this.position.y > (optPlatform.sizeY - optHeadSnake.sizeY) / 2){
+                this.position.y = -(optPlatform.sizeY - optHeadSnake.sizeY) / 2;
+                for(let i = 0; i < this.tail.length; i++){
+                    [this.tail[i].position.y, this.tail[i].position.z] = [-this.tail[i].position.z, this.tail[i].position.y]
                 }
-                else if(this.plane === 3){
-                    this.plane = 2;
+                return;
+            }
+            if(this.position.y < -(optPlatform.sizeY - optHeadSnake.sizeY) / 2){
+                this.position.y = (optPlatform.sizeY - optHeadSnake.sizeY) / 2;
+                for(let i = 0; i < this.tail.length; i++){
+                    [this.tail[i].position.y, this.tail[i].position.z] = [this.tail[i].position.z, -this.tail[i].position.y]
                 }
+                return;
             }
         }
 
@@ -108,107 +112,21 @@ export const snake = (() => {
                 this.tail[i].position.copy(this.tail[i - 1].position);
             }
             this.tail[0].position.copy(this.position);
-            switch(this.plane){
-                case 1:
-                    switch(this.direction){
-                        case 'up':
-                            this.position.z--;
-                            break;
-                        case 'down':
-                            this.position.z++;
-                            break;
-                        case 'left':
-                            this.position.x--;
-                            break;
-                        case 'right':
-                            this.position.x++;
-                            break;
-                    }
-                    this.position.y = (optPlatform.sizeY + optHeadSnake.sizeY) / 2;
-                    break;  
-                case 2:
-                    switch(this.direction){
-                        case 'up':
-                            this.position.y++;
-                            break;
-                        case 'down':
-                            this.position.y--;
-                            break;
-                        case 'left':
-                            this.position.x--;
-                            break;
-                        case 'right':
-                            this.position.x++;
-                            break;
-                    }
-                    this.position.z = (optPlatform.sizeZ + optHeadSnake.sizeZ) / 2;
+            switch(this.direction){
+                case 'up':
+                    this.position.y++;
                     break;
-                case 3:
-                    switch(this.direction){
-                        case 'up':
-                            this.position.y++;
-                            break;
-                        case 'down':
-                            this.position.y--;
-                            break;
-                        case 'left':
-                            this.position.z++;
-                            break;
-                        case 'right':
-                            this.position.z--;
-                            break;
-                    }
-                    this.position.x = (optPlatform.sizeX + optHeadSnake.sizeX) / 2;
+                case 'down':
+                    this.position.y--;
                     break;
-                // case 4:
-                //     switch(this.direction){
-                //         case 'up':
-                //             this.position.y--;
-                //             break;
-                //         case 'down':
-                //             this.position.y++;
-                //             break;
-                //         case 'left':
-                //             this.position.z++;
-                //             break;
-                //         case 'right':
-                //             this.position.z--;
-                //             break;
-                //     }
-                //     break;
-                // case 5:
-                //     switch(this.direction){
-                //         case 'up':
-                //             this.position.y--;
-                //             break;
-                //         case 'down':
-                //             this.position.y++;
-                //             break;
-                //         case 'left':
-                //             this.position.x++;
-                //             break;
-                //         case 'right':
-                //             this.position.x--;
-                //             break;
-                //     }
-                //     break;
-                // case 6:
-                // switch(this.direction){
-                //     case 'up':
-                //         this.position.z++;
-                //         break;
-                //     case 'down':
-                //         this.position.z--;
-                //         break;
-                //     case 'left':
-                //         this.position.x--;
-                //         break;
-                //     case 'right':
-                //         this.position.x++;
-                //         break;
-                //     }
-                //     break;
+                case 'left':
+                    this.position.x--;
+                    break;
+                case 'right':
+                    this.position.x++;
+                    break;
             }
+            // this.position.z = (optPlatform.sizeZ + optHeadSnake.sizeZ) / 2;
             this.checkPlane();
             this.headMesh.position.copy(this.position);
         }
@@ -216,4 +134,4 @@ export const snake = (() => {
     return {
         Snake: Snake,
     }
-  })();
+})();

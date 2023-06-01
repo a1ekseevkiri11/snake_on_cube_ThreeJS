@@ -62,24 +62,8 @@ class World {
     this.scene.add( platform );
 
 
-
-
-    // const position = new THREE.Vector3(0 ,(optPlatform.sizeY  + optBerry.sizeY) / 2, (optPlatform.sizeX + optBerry.sizeY) / 2);
-    // const mesh = new THREE.Mesh(
-    //   new THREE.BoxBufferGeometry(optBerry.sizeX, optBerry.sizeY, optBerry.sizeZ),
-    //   new THREE.MeshStandardMaterial({
-    //       color: optBerry.color
-    //   }),
-    // );
-    // mesh.position.copy(position);
-    // this.scene.add( mesh );
-
-    
-   
-
-
     this.snake = new snake.Snake({scene: this.scene});
-    // this.berry = new berry.Berry({scene: this.scene});
+    this.berry = new berry.Berry({scene: this.scene});
     
     this.RAF();
   }
@@ -120,7 +104,7 @@ class World {
     requestAnimationFrame(() => {
       if(!this.snake.dead){
         if (this.clock.getElapsedTime() > optHeadSnake.spead) {
-          // this.checkColisionsBerry();
+          this.checkColisionsBerry();
           this.snake.update();
           this.clock.start();
         }
