@@ -1,5 +1,7 @@
-import { optHeadSnake, optTailSnake, optPlatform } from "./config three.js";
+import { optHeadSnake, optTailSnake, optPlatform, optBerry } from "./config three.js";
 import { rotation } from "./support functions.js";
+
+
 
 export const snake = (() => {
 
@@ -77,7 +79,9 @@ export const snake = (() => {
             if(this.position.x === berry.position.x &&
               this.position.y === berry.position.y &&
               this.position.z === berry.position.z){
-                this.grow();
+                for(let i = 0; i < berry.satiety; i++){
+                    this.grow();
+                }
                 berry.updateBerry(this.tail);
             }
         }
