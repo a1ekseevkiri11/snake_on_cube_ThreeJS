@@ -1,6 +1,5 @@
 import { optHeadSnake, optTailSnake, optPlatform } from "./config three.js";
-import { berry } from './berry.js';
-
+import { rotation } from "./support functions.js";
 
 export const snake = (() => {
 
@@ -26,7 +25,7 @@ export const snake = (() => {
             );
             this.headMesh.position.copy(this.position);
             this.params.scene.add(this.headMesh);
-            for(let i = 0; i < 50; i++){
+            for(let i = 0; i < 1; i++){
                 this.grow();
             }
         }
@@ -57,18 +56,34 @@ export const snake = (() => {
             this.params.scene.add(this.tail[this.tail.length - 1]);
         }
 
+        //проверка пересечений
+        checkColisions(berry){
+            this.checkColisionsSnake();
+            this.checkColisionsBerry(berry);
+        }
+
         checkColisionsSnake(){
             for(let i = 1; i < this.tail.length; i++){
-                if(this.headMesh.position.x === this.tail[i].position.x &&
-                    this.headMesh.position.y === this.tail[i].position.y &&
-                    this.headMesh.position.z === this.tail[i].position.z){
+                if(this.position.x === this.tail[i].position.x &&
+                    this.position.y === this.tail[i].position.y &&
+                    this.position.z === this.tail[i].position.z){
                         this.dead = true;
                         break;
                 }
             }
         }
 
-        checkPlane(){
+        checkColisionsBerry(berry){
+            if(this.position.x === berry.position.x &&
+              this.position.y === berry.position.y &&
+              this.position.z === berry.position.z){
+                this.grow();
+                berry.updateBerry(this.tail);
+            }
+        }
+
+        //переход на другую сторону
+        checkPlane(berry){
             //1 this.position.y > (optPlatform.sizeY - optHeadSnake.sizeY) / 2
             //2 this.position.z > (optPlatform.sizeZ - optHeadSnake.sizeZ) / 2
             //3 this.position.x > (optPlatform.sizeX - optHeadSnake.sizeX) / 2
@@ -78,36 +93,34 @@ export const snake = (() => {
 
             if(this.position.x < -(optPlatform.sizeX) / 2){
                 this.position.x = (optPlatform.sizeX - optHeadSnake.sizeX) / 2;
-                for(let i = 0; i < this.tail.length; i++){
-                    [this.tail[i].position.x, this.tail[i].position.z] = [this.tail[i].position.z, -this.tail[i].position.x]
-                }
+                this.rotationTail('up');
+                rotation(berry, 'up');
                 return;
             }
+
             if(this.position.x > (optPlatform.sizeX - optHeadSnake.sizeX) / 2){
                 this.position.x = -(optPlatform.sizeX - optHeadSnake.sizeX) / 2;
-                for(let i = 0; i < this.tail.length; i++){
-                    [this.tail[i].position.x, this.tail[i].position.z] = [-this.tail[i].position.z, this.tail[i].position.x]
-                }
+                this.rotationTail('down');
+                rotation(berry, 'down');
                 return;
             }
+
             if(this.position.y > (optPlatform.sizeY - optHeadSnake.sizeY) / 2){
                 this.position.y = -(optPlatform.sizeY - optHeadSnake.sizeY) / 2;
-                for(let i = 0; i < this.tail.length; i++){
-                    [this.tail[i].position.y, this.tail[i].position.z] = [-this.tail[i].position.z, this.tail[i].position.y]
-                }
+                this.rotationTail('left');
+                rotation(berry, 'left');
                 return;
             }
+
             if(this.position.y < -(optPlatform.sizeY - optHeadSnake.sizeY) / 2){
                 this.position.y = (optPlatform.sizeY - optHeadSnake.sizeY) / 2;
-                for(let i = 0; i < this.tail.length; i++){
-                    [this.tail[i].position.y, this.tail[i].position.z] = [this.tail[i].position.z, -this.tail[i].position.y]
-                }
+                this.rotationTail('right');
+                rotation(berry, 'right');
                 return;
             }
         }
-
-        update() {
-            this.checkColisionsSnake();
+        
+        update(berry) {
             for(let i = this.tail.length - 1; i >= 1; i--){
                 this.tail[i].position.copy(this.tail[i - 1].position);
             }
@@ -126,9 +139,29 @@ export const snake = (() => {
                     this.position.x++;
                     break;
             }
-            // this.position.z = (optPlatform.sizeZ + optHeadSnake.sizeZ) / 2;
-            this.checkPlane();
+            this.checkPlane(berry);
+            this.checkColisions(berry);
             this.headMesh.position.copy(this.position);
+        }
+        
+        //support function
+        rotationTail(directionRotation){
+            for(let i = 0; i < this.tail.length; i++){
+                switch(directionRotation){
+                    case 'up':
+                        [this.tail[i].position.x, this.tail[i].position.z] = [this.tail[i].position.z, -this.tail[i].position.x];
+                        break;
+                    case 'down':
+                        [this.tail[i].position.x, this.tail[i].position.z] = [-this.tail[i].position.z, this.tail[i].position.x];
+                        break;
+                    case 'left':
+                        [this.tail[i].position.y, this.tail[i].position.z] = [-this.tail[i].position.z, this.tail[i].position.y];
+                        break;
+                    case 'right':
+                        [this.tail[i].position.y, this.tail[i].position.z] = [this.tail[i].position.z, -this.tail[i].position.y];
+                        break;
+                }
+            }
         }
     }
     return {

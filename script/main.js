@@ -9,7 +9,6 @@ import {
   optAmbLight,
   optDirLight,
   optHeadSnake,
-  optBerry
 } from "./config three.js";
 
 class World {
@@ -68,32 +67,6 @@ class World {
     this.RAF();
   }
 
-  checkColisionsBerry(){
-    if(this.snake.headMesh.position.x === this.berry.mesh.position.x &&
-      this.snake.headMesh.position.y === this.berry.mesh.position.y &&
-      this.snake.headMesh.position.z === this.berry.mesh.position.z){
-        this.snake.grow();
-        this.updateBerry();
-    }
-  }
-
-  updateBerry(){
-    let inTail = true;
-    while(inTail){
-      inTail = false;
-      this.berry.newPositionBerry();
-      for(let i = 0; i < this.snake.tail.length; i++){
-        if(this.snake.tail[i].position.x === this.berry.mesh.position.x &&
-          this.snake.tail[i].position.y === this.berry.mesh.position.y &&
-          this.snake.tail[i].position.z === this.berry.mesh.position.z){
-            inTail = true;
-            break;
-        }
-      }
-    }
-  }
-
-
   onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
@@ -104,8 +77,7 @@ class World {
     requestAnimationFrame(() => {
       if(!this.snake.dead){
         if (this.clock.getElapsedTime() > optHeadSnake.spead) {
-          this.checkColisionsBerry();
-          this.snake.update();
+          this.snake.update(this.berry);
           this.clock.start();
         }
       }
@@ -113,6 +85,7 @@ class World {
       this.RAF();
     });
   }
+
 }
 
 window.addEventListener('DOMContentLoaded', () => {

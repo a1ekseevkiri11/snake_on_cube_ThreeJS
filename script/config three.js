@@ -37,10 +37,11 @@ export const optBerry = {
 	satiety: 1,
 }
 
+//only cube
 export const optPlatform = {
-	sizeX: 31,
-	sizeY: 31,
-	sizeZ: 31,
+	sizeX: 11,
+	sizeY: 11,
+	sizeZ: 11,
 	color: 0x1b222e,
 }
 
