@@ -1,11 +1,11 @@
 import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
 import { snake } from './snake.js';
 import { berry } from './berry.js';
+import { platform } from './platform.js';
 
 import {
   optCamera,
   optScene,
-  optPlatform,
   optAmbLight,
   optDirLight,
   optHeadSnake,
@@ -50,17 +50,7 @@ class World {
     const controls = new OrbitControls(this.camera, this.renderer.domElement);
     controls.target.set(0, 0, 0);
     controls.update();
-
-    this.clock = new THREE.Clock(true);
-
-
-    const geometryPlatform = new THREE.BoxGeometry( optPlatform.sizeX, optPlatform.sizeY, optPlatform.sizeZ);
-    const material = new THREE.MeshStandardMaterial( { color: optPlatform.color} );
-    const platform = new THREE.Mesh( geometryPlatform, material );
-    platform.position.set(0, 0, 0);
-    this.scene.add( platform );
-
-
+    this.platform = new platform.Platform({scene: this.scene});
     this.snake = new snake.Snake({scene: this.scene});
     this.berry = new berry.Berry({scene: this.scene});
     
@@ -75,12 +65,7 @@ class World {
 
   RAF() {
     requestAnimationFrame(() => {
-      if(!this.snake.dead){
-        if (this.clock.getElapsedTime() > optHeadSnake.spead) {
-          this.snake.update(this.berry);
-          this.clock.start();
-        }
-      }
+      this.snake.update(this.berry, this.platform);
       this.renderer.render(this.scene, this.camera);
       this.RAF();
     });

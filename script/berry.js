@@ -1,4 +1,7 @@
-import { optBerry, optPlatform } from "./config three.js";
+import { optBerry, optPlatform, optHeadSnake  } from "./config three.js";
+import { getRandomIndexFromArray, getTilesWithoutSnake } from "./support functions.js";
+
+const planesWithoutSnake = ['plane1', 'plane3', 'plane4', 'plane5', 'plane6'];
 
 export const berry = (() => {
 
@@ -6,7 +9,7 @@ export const berry = (() => {
         constructor(params) {
             this.params = params;
             this.satiety = 1;
-            this.position = new THREE.Vector3(5, 5, (optPlatform.sizeZ + optBerry.sizeZ) / 2);
+            this.position = new THREE.Vector3(0, 0, (optPlatform.sizeY  + optHeadSnake.sizeY) / 2);
             this.initBerry();
         }
 
@@ -21,37 +24,35 @@ export const berry = (() => {
             this.params.scene.add(this.mesh);
         }
 
-        //переписать
-        newPosition(){
-            this.position = new THREE.Vector3(
-                Math.round(Math.random() * optPlatform.sizeX - optPlatform.sizeX / 2),
-                Math.round(Math.random() * optPlatform.sizeY - optPlatform.sizeY / 2), 
-                (optPlatform.sizeZ + optBerry.sizeZ) / 2
-            );
-            this.mesh.position.copy(this.position);
-        }
-
-        //переписать
-        updateBerry(tail){
-            if(tail.length > optPlatform.sizeX * optPlatform.sizeY){
-                console.log("Ладно ты победил");
+        updateBerry(platform, tail){
+            const plane = planesWithoutSnake[getRandomIndexFromArray(planesWithoutSnake)];
+            let tileWithoutSnake = [];
+            switch(plane){
+                case 'plane1':
+                    tileWithoutSnake = getTilesWithoutSnake(tail, platform.tileMap.plane1);
+                    break;
+                case 'plane3':
+                    tileWithoutSnake = getTilesWithoutSnake(tail, platform.tileMap.plane3);
+                    break;
+                case 'plane4':
+                    tileWithoutSnake = getTilesWithoutSnake(tail, platform.tileMap.plane4);
+                    break;
+                case 'plane5':
+                    tileWithoutSnake = getTilesWithoutSnake(tail, platform.tileMap.plane5);
+                    break;
+                case 'plane6':
+                    tileWithoutSnake = getTilesWithoutSnake(tail, platform.tileMap.plane6);
+                    break;
+            }
+            if(tileWithoutSnake.length === 0){
+                console.log("Ладно, ты победил");
                 return;
             }
-            let inTail = true;
-            while(inTail){
-                inTail = false;
-                this.newPosition();
-                for(let i = 0; i < tail.length; i++){
-                    if(tail[i].position.x === this.mesh.position.x &&
-                        tail[i].position.y === this.mesh.position.y &&
-                        tail[i].position.z === this.mesh.position.z){
-                        inTail = true;
-                        break;
-                    }
-                }
-            }
+            this.position = tileWithoutSnake[getRandomIndexFromArray(tileWithoutSnake)];
+            this.mesh.position.copy(this.position);
         }
     }
+
     return{
         Berry: Berry,
     }

@@ -45,7 +45,6 @@ export const optPlatform = {
 	color: 0x1b222e,
 }
 
-
 export const optDirLight = {
 	x: 20,
 	y: 100,
