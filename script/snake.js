@@ -123,10 +123,10 @@ export const snake = (() => {
         update(berry, platform) {
             if(!this.dead){
                 if (this.clock.getElapsedTime() > optHeadSnake.spead){
-                    this.tail[0].position.copy(this.headMesh.position);
                     for(let i = this.tail.length - 1; i >= 1; i--){
                         this.tail[i].position.copy(this.tail[i - 1].position);
                     }
+                    this.tail[0].position.copy(this.headMesh.position);
                     switch(this.direction){
                         case 'up':
                             this.position.indexHeight++;

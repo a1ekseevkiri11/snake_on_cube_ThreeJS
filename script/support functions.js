@@ -51,25 +51,31 @@ export function getRandomIndexFromArray(array){
 export function getTilesWithoutSnake(tail, plane){
     let tailArray = tail.slice();
     let arrayTileFromPlane = [];
+
     for(let i = 0; i < plane.length; i++){
         for(let j = 0; j < plane[0].length; j++){
             arrayTileFromPlane.push(plane[i][j]);
         }
     }
+
     for(let i = 0; i < arrayTileFromPlane.length; i++){
+        let repeat = false;
         for(let j = 0; j < tailArray.length; j++){
             if(arrayTileFromPlane[i].x === tailArray[j].position.x &&
                 arrayTileFromPlane[i].y === tailArray[j].position.y &&
                 arrayTileFromPlane[i].z === tailArray[j].position.z){
-                arrayTileFromPlane.splice(i, 1);
                 tailArray.splice(j, 1);
-
-                i--;
+                repeat = true;
                 j--;
+                break;
             }
             if(tailArray.length === 0 || arrayTileFromPlane.length === 0){
                 break;
             }
+        }
+        if(repeat){
+            arrayTileFromPlane.splice(i, 1);
+            i--;
         }
         if(tailArray.length === 0 || arrayTileFromPlane.length === 0){
             break;
