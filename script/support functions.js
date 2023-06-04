@@ -7,13 +7,14 @@ export function rotation(object, directionRotation){
             [object.position.y, object.position.z] = [-object.position.z, object.position.y]
             break;
         case 'left':
+            console.log('left');
             [object.position.x, object.position.z] = [-object.position.z, object.position.x]
             break;
         case 'right':
-             [object.position.x, object.position.z] = [object.position.z, -object.position.x]
+            console.log('right');
+            [object.position.x, object.position.z] = [object.position.z, -object.position.x]
             break;
     }
-    object.mesh.position.copy(object.position);
 }
 
 
@@ -99,16 +100,10 @@ export function getTilesWithoutSnake(tail, plane){
                 j--;
                 break;
             }
-            if(tailArray.length === 0){
-                return arrayTileFromPlane;
-            }
         }
         if(repeat){
             arrayTileFromPlane.splice(i, 1);
             i--;
-        }
-        if(arrayTileFromPlane.length === 0){
-            return arrayTileFromPlane;
         }
     }
     return arrayTileFromPlane;

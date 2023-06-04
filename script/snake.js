@@ -28,7 +28,7 @@ export class Snake {
             }),
         );
         this.params.scene.add(this.headMesh);
-        for(let i = 0; i < 10; i++){
+        for(let i = 0; i < 1; i++){
             this.grow();
         }
     }
@@ -48,13 +48,13 @@ export class Snake {
     }
 
     grow(){
-        this.mesh = new THREE.Mesh(
+        const mesh = new THREE.Mesh(
             new THREE.BoxBufferGeometry(optTailSnake.sizeX, optTailSnake.sizeY, optTailSnake.sizeZ),
             new THREE.MeshStandardMaterial({
                 color: optTailSnake.color,
             }),
         );
-        this.tail.push(this.mesh);
+        this.tail.push(mesh);
         this.params.scene.add(this.tail[this.tail.length - 1]);
     }
 
@@ -76,15 +76,14 @@ export class Snake {
     }
 
     checkColisionsBerry(berry){
-        if(this.headMesh.position.x === berry.position.x &&
-            this.headMesh.position.y === berry.position.y &&
-            this.headMesh.position.z === berry.position.z){
+        if(this.headMesh.position.x === berry.mesh.position.x &&
+            this.headMesh.position.y ===  berry.mesh.position.y &&
+            this.headMesh.position.z ===  berry.mesh.position.z){
             for(let i = 0; i < berry.satiety; i++){
                 this.grow();
             }
             if(!berry.updateBerry(this.tail.slice())){
                 this.dead = true;
-                console.log("сдох!");
             }
             
         }
@@ -92,31 +91,39 @@ export class Snake {
 
     //"переход" на другую сторону
     checkPlane(berry){
-        if(this.position.indexHeight > this.tileMap.plane.plane2[0].length - 1){
+        if(this.position.indexHeight > this.tileMap.plane.plane2.length - 1){
             this.position.indexHeight = 0;
-            this.rotationTail('down');
-            rotation(berry, 'down');
+            for(let i = 0; i < this.tail.length; i++){
+                rotation(this.tail[i], 'down');
+            }
+            rotation(berry.mesh, 'down');
             return;
         }
 
         if(this.position.indexHeight < 0){
             this.position.indexHeight = this.tileMap.plane.plane2[0].length - 1;
-            this.rotationTail('up');
-            rotation(berry, 'up');
+            for(let i = 0; i < this.tail.length; i++){
+                rotation(this.tail[i], 'up');
+            }
+            rotation(berry.mesh, 'up');
             return;
         }
 
-        if(this.position.indexWidth > this.tileMap.plane.plane2.length - 1){
+        if(this.position.indexWidth > this.tileMap.plane.plane2[0].length - 1){
             this.position.indexWidth = 0;
-            this.rotationTail('left');
-            rotation(berry, 'left');
+            for(let i = 0; i < this.tail.length; i++){
+                rotation(this.tail[i], 'left');
+            }
+            rotation(berry.mesh, 'left');
             return;
         }
 
         if(this.position.indexWidth < 0){
             this.position.indexWidth = this.tileMap.plane.plane2.length - 1;
-            this.rotationTail('right');
-            rotation(berry, 'right');
+            for(let i = 0; i < this.tail.length; i++){
+                rotation(this.tail[i], 'right');
+            }
+            rotation(berry.mesh, 'right');
             return;
         }
     } 
@@ -152,25 +159,5 @@ export class Snake {
         // else{
         //     return false;
         // }            
-    }
-
-    // support function
-    rotationTail(directionRotation){
-        for(let i = 0; i < this.tail.length; i++){
-            switch(directionRotation){
-                case 'up':
-                    [this.tail[i].position.y, this.tail[i].position.z] = [this.tail[i].position.z, -this.tail[i].position.y];
-                    break;
-                case 'down':
-                    [this.tail[i].position.y, this.tail[i].position.z] = [-this.tail[i].position.z, this.tail[i].position.y];
-                    break;
-                case 'left':
-                    [this.tail[i].position.x, this.tail[i].position.z] = [-this.tail[i].position.z, this.tail[i].position.x];
-                    break;
-                case 'right':
-                    [this.tail[i].position.x, this.tail[i].position.z] = [this.tail[i].position.z, -this.tail[i].position.x];
-                    break;
-            }
-        }
     }
 }

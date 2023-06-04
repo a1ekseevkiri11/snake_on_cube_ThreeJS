@@ -1,4 +1,4 @@
-import { optBerry, optPlatform, optHeadSnake  } from "./config three.js";
+import { optBerry } from "./config three.js";
 import { getRandomIndexFromArray, getTilesWithoutSnake } from "./support functions.js";
 
 export class Berry{

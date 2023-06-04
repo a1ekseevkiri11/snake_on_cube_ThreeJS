@@ -23,23 +23,23 @@ export const optScene = {
 
 export const optHeadSnake = {
 	sizeX: 1 * optVoxel.sizeX,
-	sizeY: 1 * optVoxel.sizeX,
-	sizeZ: 1 * optVoxel.sizeX,
+	sizeY: 1 * optVoxel.sizeY,
+	sizeZ: 1 * optVoxel.sizeZ,
 	color: 0x80FFFF,
-	spead: 0.2,
+	spead: 0.1,
 }
 
 export const optTailSnake = {
 	sizeX: 1 * optVoxel.sizeX,
-	sizeY: 1 * optVoxel.sizeX,
-	sizeZ: 1 * optVoxel.sizeX,
+	sizeY: 1 * optVoxel.sizeY,
+	sizeZ: 1 * optVoxel.sizeZ,
 	color: 0x80FF80,
 }
 
 export const optBerry = {
 	sizeX: 1 * optVoxel.sizeX,
-	sizeY: 1 * optVoxel.sizeX,
-	sizeZ: 1 * optVoxel.sizeX,
+	sizeY: 1 * optVoxel.sizeY,
+	sizeZ: 1 * optVoxel.sizeZ,
 	color: 0x8B0000,
 	satiety: 1,
 }
@@ -47,8 +47,8 @@ export const optBerry = {
 //only cube
 export const optPlatform = {
 	sizeX: 5 * optVoxel.sizeX,
-	sizeY: 5 * optVoxel.sizeX,
-	sizeZ: 5 * optVoxel.sizeX,
+	sizeY: 5 * optVoxel.sizeY,
+	sizeZ: 5 * optVoxel.sizeZ,
 	color: 0x1b222e,
 }
 
