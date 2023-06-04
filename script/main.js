@@ -10,6 +10,7 @@ import {
   optScene,
   optAmbLight,
   optDirLight,
+  optBerry
 } from "./config three.js";
 
 class World {
@@ -57,6 +58,16 @@ class World {
     this.platform = new Platform({scene: this.scene});
     this.snake = new Snake({scene: this.scene}, this.tileMap);
     this.berry = new Berry({scene: this.scene}, this.tileMap);
+    
+    /////test figure
+    // this.mesh = new THREE.Mesh(
+    //   new THREE.BoxBufferGeometry(optBerry.sizeX, optBerry.sizeY, optBerry.sizeZ),
+    //   new THREE.MeshStandardMaterial({
+    //       color: optBerry.color
+    //   }),
+    // );
+    // this.mesh.position.copy(this.tileMap.plane.plane2[4][4]);
+    // this.scene.add(this.mesh);
     
     this.RAF();
   }

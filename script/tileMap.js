@@ -27,11 +27,5 @@ export class TileMap{
         this.plane.plane4 = rotationPlane(this.plane.plane2, 'left');
         this.plane.plane6 = rotationPlane(this.plane.plane2, 'down');
         this.plane.plane5 = rotationPlane(this.plane.plane6, 'down');
-        console.log(this.plane.plane1);
-        console.log(this.plane.plane2);
-        console.log(this.plane.plane3);
-        console.log(this.plane.plane4);
-        console.log(this.plane.plane5);
-        console.log(this.plane.plane6);
     }
 }

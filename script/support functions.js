@@ -52,9 +52,39 @@ export function getTilesWithoutSnake(tail, plane){
     let tailArray = tail.slice();
     let arrayTileFromPlane = [];
 
-    for(let i = 0; i < plane.length; i++){
-        for(let j = 0; j < plane[0].length; j++){
-            arrayTileFromPlane.push(plane[i][j]);
+    for(let i = 0; i < plane.plane2.length; i++){
+        for(let j = 0; j < plane.plane2[0].length; j++){
+            arrayTileFromPlane.push(plane.plane2[i][j]);
+        }
+    }
+
+    for(let i = 0; i < plane.plane1.length; i++){
+        for(let j = 0; j < plane.plane1[0].length; j++){
+            arrayTileFromPlane.push(plane.plane1[i][j]);
+        }
+    }
+
+    for(let i = 0; i < plane.plane3.length; i++){
+        for(let j = 0; j < plane.plane3[0].length; j++){
+            arrayTileFromPlane.push(plane.plane3[i][j]);
+        }
+    }
+
+    for(let i = 0; i < plane.plane4.length; i++){
+        for(let j = 0; j < plane.plane4[0].length; j++){
+            arrayTileFromPlane.push(plane.plane4[i][j]);
+        }
+    }
+
+    for(let i = 0; i < plane.plane5.length; i++){
+        for(let j = 0; j < plane.plane5[0].length; j++){
+            arrayTileFromPlane.push(plane.plane5[i][j]);
+        }
+    }
+
+    for(let i = 0; i < plane.plane6.length; i++){
+        for(let j = 0; j < plane.plane6[0].length; j++){
+            arrayTileFromPlane.push(plane.plane6[i][j]);
         }
     }
 
@@ -69,16 +99,16 @@ export function getTilesWithoutSnake(tail, plane){
                 j--;
                 break;
             }
-            if(tailArray.length === 0 || arrayTileFromPlane.length === 0){
-                break;
+            if(tailArray.length === 0){
+                return arrayTileFromPlane;
             }
         }
         if(repeat){
             arrayTileFromPlane.splice(i, 1);
             i--;
         }
-        if(tailArray.length === 0 || arrayTileFromPlane.length === 0){
-            break;
+        if(arrayTileFromPlane.length === 0){
+            return arrayTileFromPlane;
         }
     }
     return arrayTileFromPlane;

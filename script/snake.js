@@ -27,9 +27,8 @@ export class Snake {
                 color: optHeadSnake.color
             }),
         );
-        this.headMesh.position.copy(this.position);
         this.params.scene.add(this.headMesh);
-        for(let i = 0; i < 1; i++){
+        for(let i = 0; i < 10; i++){
             this.grow();
         }
     }
@@ -83,7 +82,11 @@ export class Snake {
             for(let i = 0; i < berry.satiety; i++){
                 this.grow();
             }
-            berry.updateBerry(this.tail);
+            if(!berry.updateBerry(this.tail.slice())){
+                this.dead = true;
+                console.log("сдох!");
+            }
+            
         }
     }
 
@@ -146,9 +149,9 @@ export class Snake {
                 this.clock.start();
             }
         }
-        else{
-            return false;
-        }            
+        // else{
+        //     return false;
+        // }            
     }
 
     // support function
