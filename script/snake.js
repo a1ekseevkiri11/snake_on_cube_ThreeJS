@@ -3,6 +3,7 @@ import { optHeadSnake, optTailSnake } from "./config three.js";
 import { rotation } from "./support functions.js";
 
 export class Snake {
+    
     constructor(params, tileMap) {
         this.params = params;
         this.tileMap = tileMap;
@@ -14,6 +15,7 @@ export class Snake {
         }
         this.plane = 'plane2';
         this.direction = 'up';
+        this.forbiddenDirection = 'down';
         this.headMesh;
         this.tail = [];
         this.initSnake();
@@ -28,20 +30,20 @@ export class Snake {
             }),
         );
         this.params.scene.add(this.headMesh);
-        for(let i = 0; i < 1; i++){
+        for(let i = 0; i < 31; i++){
             this.grow();
         }
     }
 
     initInput() {
         document.addEventListener("keydown",  (e) => {
-            if ( e.code === "KeyW" &&  this.direction !== 'down') {
+            if ( e.code === "KeyW" &&  this.forbiddenDirection !== 'up') {
                 this.direction = 'up';
-            }else if ( e.code === "KeyS" && this.direction !== 'up') {
+            }else if ( e.code === "KeyS" && this.forbiddenDirection !== 'down') {
                 this.direction = 'down';
-            } else if ( e.code === "KeyA" && this.direction !== 'right') {
+            } else if ( e.code === "KeyA" && this.forbiddenDirection !== 'left') {
                 this.direction = 'left';
-            }  else if ( e.code === "KeyD" && this.direction !== 'left') {
+            }  else if ( e.code === "KeyD" && this.forbiddenDirection !== 'right') {
                 this.direction = 'right';
             }
         });
@@ -139,15 +141,19 @@ export class Snake {
                 switch(this.direction){
                     case 'up':
                         this.position.indexHeight++;
+                        this.forbiddenDirection = 'down';
                         break;
                     case 'down':
                         this.position.indexHeight--;
+                        this.forbiddenDirection = 'up';
                         break;
                     case 'left':
                         this.position.indexWidth--;
+                        this.forbiddenDirection = 'right';
                         break;
                     case 'right':
                         this.position.indexWidth++;
+                        this.forbiddenDirection = 'left';
                         break;
                 }
                 this.checkPlane(berry);

@@ -46,9 +46,9 @@ export const optBerry = {
 
 //only cube
 export const optPlatform = {
-	sizeX: 5 * optVoxel.sizeX,
-	sizeY: 5 * optVoxel.sizeY,
-	sizeZ: 5 * optVoxel.sizeZ,
+	sizeX: 31 * optVoxel.sizeX,
+	sizeY: 31 * optVoxel.sizeY,
+	sizeZ: 31 * optVoxel.sizeZ,
 	color: 0x1b222e,
 }
 

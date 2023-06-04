@@ -6,7 +6,7 @@ export class Berry{
         this.params = params;
         this.tileMap = tileMap;
         this.satiety = 1;
-        this.position = this.tileMap.plane.plane2[4][4];
+        this.position = this.tileMap.plane.plane2[this.tileMap.plane.plane2.length - 1][this.tileMap.plane.plane2[0].length - 1];
         this.initBerry();
     }
 
