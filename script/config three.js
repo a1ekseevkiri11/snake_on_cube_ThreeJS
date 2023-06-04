@@ -1,3 +1,9 @@
+const optVoxel = {
+	sizeX: 1,
+	sizeY: 1,
+	sizeZ: 1,
+}
+
 export const optCamera = {
 	x: 20,
 	y: 20,
@@ -14,34 +20,35 @@ export const optScene = {
 	color: 0xDDDDDD,
 }
 
+
 export const optHeadSnake = {
-	sizeX: 1,
-	sizeY: 1,
-	sizeZ: 1,
+	sizeX: 1 * optVoxel.sizeX,
+	sizeY: 1 * optVoxel.sizeX,
+	sizeZ: 1 * optVoxel.sizeX,
 	color: 0x80FFFF,
 	spead: 0.1,
 }
 
 export const optTailSnake = {
-	sizeX: 1,
-	sizeY: 1,
-	sizeZ: 1,
+	sizeX: 1 * optVoxel.sizeX,
+	sizeY: 1 * optVoxel.sizeX,
+	sizeZ: 1 * optVoxel.sizeX,
 	color: 0x80FF80,
 }
 
 export const optBerry = {
-	sizeX: 1,
-	sizeY: 1,
-	sizeZ: 1,
+	sizeX: 1 * optVoxel.sizeX,
+	sizeY: 1 * optVoxel.sizeX,
+	sizeZ: 1 * optVoxel.sizeX,
 	color: 0x8B0000,
 	satiety: 1,
 }
 
 //only cube
 export const optPlatform = {
-	sizeX: 31,
-	sizeY: 31,
-	sizeZ: 31,
+	sizeX: 31 * optVoxel.sizeX,
+	sizeY: 31 * optVoxel.sizeX,
+	sizeZ: 31 * optVoxel.sizeX,
 	color: 0x1b222e,
 }
 

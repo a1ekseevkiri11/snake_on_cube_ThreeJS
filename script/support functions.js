@@ -47,7 +47,7 @@ export function getRandomIndexFromArray(array){
     return Math.floor(Math.random() * array.length);
 }
 
-//эта функция немного не работает, надо переписать!!!!!!
+
 export function getTilesWithoutSnake(tail, plane){
     let tailArray = tail.slice();
     let arrayTileFromPlane = [];

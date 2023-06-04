@@ -1,14 +1,15 @@
 import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
-import { snake } from './snake.js';
-import { berry } from './berry.js';
-import { platform } from './platform.js';
+import { TileMap } from './tileMap.js';
+import { Snake } from './snake.js';
+import { Berry } from './berry.js';
+import { Platform } from './platform.js';
+
 
 import {
   optCamera,
   optScene,
   optAmbLight,
   optDirLight,
-  optHeadSnake,
 } from "./config three.js";
 
 class World {
@@ -50,9 +51,12 @@ class World {
     const controls = new OrbitControls(this.camera, this.renderer.domElement);
     controls.target.set(0, 0, 0);
     controls.update();
-    this.platform = new platform.Platform({scene: this.scene});
-    this.snake = new snake.Snake({scene: this.scene});
-    this.berry = new berry.Berry({scene: this.scene});
+
+
+    this.tileMap = new TileMap();
+    this.platform = new Platform({scene: this.scene});
+    this.snake = new Snake({scene: this.scene}, this.tileMap);
+    this.berry = new Berry({scene: this.scene}, this.tileMap);
     
     this.RAF();
   }
@@ -65,7 +69,7 @@ class World {
 
   RAF() {
     requestAnimationFrame(() => {
-      this.snake.update(this.berry, this.platform);
+      this.snake.update(this.berry);
       this.renderer.render(this.scene, this.camera);
       this.RAF();
     });
