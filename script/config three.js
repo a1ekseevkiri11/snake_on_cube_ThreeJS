@@ -30,10 +30,11 @@ export const optHeadSnake = {
 }
 
 export const optTailSnake = {
-	sizeX: 1 * optVoxel.sizeX,
-	sizeY: 1 * optVoxel.sizeY,
-	sizeZ: 1 * optVoxel.sizeZ,
+	sizeX: 0.99 * optVoxel.sizeX,
+	sizeY: 0.99 * optVoxel.sizeY,
+	sizeZ: 0.99 * optVoxel.sizeZ,
 	color: 0x80FF80,
+	initLength: 4,
 }
 
 export const optBerry = {
@@ -46,9 +47,9 @@ export const optBerry = {
 
 //only cube
 export const optPlatform = {
-	sizeX: 31 * optVoxel.sizeX,
-	sizeY: 31 * optVoxel.sizeY,
-	sizeZ: 31 * optVoxel.sizeZ,
+	sizeX: 21 * optVoxel.sizeX,
+	sizeY: 21 * optVoxel.sizeY,
+	sizeZ: 21 * optVoxel.sizeZ,
 	color: 0x1b222e,
 }
 

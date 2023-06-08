@@ -7,11 +7,9 @@ export function rotation(object, directionRotation){
             [object.position.y, object.position.z] = [-object.position.z, object.position.y]
             break;
         case 'left':
-            console.log('left');
             [object.position.x, object.position.z] = [-object.position.z, object.position.x]
             break;
         case 'right':
-            console.log('right');
             [object.position.x, object.position.z] = [object.position.z, -object.position.x]
             break;
     }
@@ -59,35 +57,35 @@ export function getTilesWithoutSnake(tail, plane){
         }
     }
 
-    for(let i = 0; i < plane.plane1.length; i++){
-        for(let j = 0; j < plane.plane1[0].length; j++){
-            arrayTileFromPlane.push(plane.plane1[i][j]);
-        }
-    }
+    // for(let i = 0; i < plane.plane1.length; i++){
+    //     for(let j = 0; j < plane.plane1[0].length; j++){
+    //         arrayTileFromPlane.push(plane.plane1[i][j]);
+    //     }
+    // }
 
-    for(let i = 0; i < plane.plane3.length; i++){
-        for(let j = 0; j < plane.plane3[0].length; j++){
-            arrayTileFromPlane.push(plane.plane3[i][j]);
-        }
-    }
+    // for(let i = 0; i < plane.plane3.length; i++){
+    //     for(let j = 0; j < plane.plane3[0].length; j++){
+    //         arrayTileFromPlane.push(plane.plane3[i][j]);
+    //     }
+    // }
 
-    for(let i = 0; i < plane.plane4.length; i++){
-        for(let j = 0; j < plane.plane4[0].length; j++){
-            arrayTileFromPlane.push(plane.plane4[i][j]);
-        }
-    }
+    // for(let i = 0; i < plane.plane4.length; i++){
+    //     for(let j = 0; j < plane.plane4[0].length; j++){
+    //         arrayTileFromPlane.push(plane.plane4[i][j]);
+    //     }
+    // }
 
-    for(let i = 0; i < plane.plane5.length; i++){
-        for(let j = 0; j < plane.plane5[0].length; j++){
-            arrayTileFromPlane.push(plane.plane5[i][j]);
-        }
-    }
+    // for(let i = 0; i < plane.plane5.length; i++){
+    //     for(let j = 0; j < plane.plane5[0].length; j++){
+    //         arrayTileFromPlane.push(plane.plane5[i][j]);
+    //     }
+    // }
 
-    for(let i = 0; i < plane.plane6.length; i++){
-        for(let j = 0; j < plane.plane6[0].length; j++){
-            arrayTileFromPlane.push(plane.plane6[i][j]);
-        }
-    }
+    // for(let i = 0; i < plane.plane6.length; i++){
+    //     for(let j = 0; j < plane.plane6[0].length; j++){
+    //         arrayTileFromPlane.push(plane.plane6[i][j]);
+    //     }
+    // }
 
     for(let i = 0; i < arrayTileFromPlane.length; i++){
         let repeat = false;

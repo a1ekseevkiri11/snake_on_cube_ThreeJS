@@ -28,4 +28,25 @@ export class TileMap{
         this.plane.plane6 = rotationPlane(this.plane.plane2, 'down');
         this.plane.plane5 = rotationPlane(this.plane.plane6, 'down');
     }
+
+    getPlane(object){
+        if(object.position.y === this.plane.plane1[0][0].y){
+            return 'plane1';
+        }
+        if(object.position.z === this.plane.plane2[0][0].z){
+            return 'plane2';
+        }
+        if(object.position.x === this.plane.plane3[0][0].x){
+            return 'plane3';
+        }
+        if(object.position.x === this.plane.plane4[0][0].x){
+            return 'plane4';
+        }
+        if(object.position.z === this.plane.plane5[0][0].z){
+            return 'plane5';
+        }
+        if(object.position.y === this.plane.plane6[0][0].y){
+            return 'plane6';
+        }
+    }
 }
