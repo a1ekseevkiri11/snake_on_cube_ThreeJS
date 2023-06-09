@@ -4,9 +4,10 @@ import { rotation } from "./support functions.js";
 
 export class Snake {
     
-    constructor(params, tileMap) {
+    constructor(params, tileMap, berry) {
         this.params = params;
         this.tileMap = tileMap;
+        this.berry = berry;
         this.clock = new THREE.Clock(true);
         this.dead = false;
         this.position = {
@@ -32,6 +33,7 @@ export class Snake {
         for(let i = 0; i < optTailSnake.initLength; i++){
             this.grow();
         }
+        this.berry.updateBerry(this.tail.slice());
     }
 
     initInput() {
@@ -60,9 +62,9 @@ export class Snake {
     }
 
     //проверка пересечений
-    checkColisions(berry){
+    checkColisions(){
         this.checkColisionsSnake();
-        this.checkColisionsBerry(berry);
+        this.checkColisionsBerry(this.berry);
     }
 
     checkColisionsSnake(){
@@ -76,28 +78,31 @@ export class Snake {
         }
     }
 
-    checkColisionsBerry(berry){
-        if(this.headMesh.position.x === berry.mesh.position.x &&
-            this.headMesh.position.y ===  berry.mesh.position.y &&
-            this.headMesh.position.z ===  berry.mesh.position.z){
-                // this.unfoldTail(berry); 
-                for(let i = 0; i < berry.satiety; i++){
+    checkColisionsBerry(){
+        if(this.headMesh.position.x === this.berry.meshBerry.position.x &&
+            this.headMesh.position.y ===  this.berry.meshBerry.position.y &&
+            this.headMesh.position.z ===  this.berry.meshBerry.position.z){
+                if(this.berry.typeBerry ==='unfoldBerry'){
+                    this.unfoldTail(); 
+                }
+                for(let i = 0; i < this.berry.satiety; i++){
                     this.grow();
                 }
-                if(!berry.updateBerry(this.tail.slice())){
+                if(!this.berry.updateBerry(this.tail.slice())){
                     this.dead = true;
+                    return;
                 }
         }
     }
 
     //"переход" на другую сторону
-    checkPlane(berry){
+    checkPlane(){
         if(this.position.indexHeight > this.tileMap.plane.plane2.length - 1){
             this.position.indexHeight = 0;
             for(let i = 0; i < this.tail.length; i++){
                 rotation(this.tail[i], 'down');
             }
-            rotation(berry.mesh, 'down');
+            rotation(this.berry.meshBerry, 'down');
             return;
         }
 
@@ -106,7 +111,7 @@ export class Snake {
             for(let i = 0; i < this.tail.length; i++){
                 rotation(this.tail[i], 'up');
             }
-            rotation(berry.mesh, 'up');
+            rotation(this.berry.meshBerry, 'up');
             return;
         }
 
@@ -115,7 +120,7 @@ export class Snake {
             for(let i = 0; i < this.tail.length; i++){
                 rotation(this.tail[i], 'left');
             }
-            rotation(berry.mesh, 'left');
+            rotation(this.berry.meshBerry, 'left');
             return;
         }
 
@@ -124,15 +129,17 @@ export class Snake {
             for(let i = 0; i < this.tail.length; i++){
                 rotation(this.tail[i], 'right');
             }
-            rotation(berry.mesh, 'right');
+            rotation(this.berry.meshBerry, 'right');
             return;
         }
-    } 
+    }
     
     
-    update(berry) {
+    update() {
         if(!this.dead){
             if (this.clock.getElapsedTime() > optHeadSnake.spead){
+                this.clock.start();
+
                 for(let i = this.tail.length - 1; i >= 1; i--){
                     this.tail[i].position.copy(this.tail[i - 1].position);
                 }
@@ -154,22 +161,21 @@ export class Snake {
                         this.forbiddenDirection = 'left';
                         break;
                 }
-                this.checkPlane(berry);
+                this.checkPlane(this.berry);
                 this.headMesh.position.copy(this.tileMap.plane.plane2[this.position.indexHeight][this.position.indexWidth]);
                 this.tail[0].position.copy(this.headMesh.position);
-                this.checkColisions(berry);
-                this.clock.start();
+                this.checkColisions(this.berry);
             }
         }        
     }
 
-    unfoldTail(berry){
+    unfoldTail(){
         switch(this.tileMap.getPlane(this.tail[this.tail.length - 1])){
             case 'plane1':
                 for(let i = 0; i < this.tail.length; i++){
                     rotation(this.tail[i], 'down');
                 }
-                rotation(berry.mesh, 'down');
+                rotation(this.berry.meshBerry, 'down');
                 break;
             case 'plane2':
                 break;
@@ -177,27 +183,27 @@ export class Snake {
                 for(let i = 0; i < this.tail.length; i++){
                     rotation(this.tail[i], 'left');
                 }
-                rotation(berry.mesh, 'left');
+                rotation(this.berry.meshBerry, 'left');
                 break;
             case 'plane4':
                 for(let i = 0; i < this.tail.length; i++){
                     rotation(this.tail[i], 'right');
                 }
-                rotation(berry.mesh, 'right');
+                rotation(this.berry.meshBerry, 'right');
                 break;
             case 'plane5':
                 for(let i = 0; i < this.tail.length; i++){
                     rotation(this.tail[i], 'up');
                     rotation(this.tail[i], 'up');
                 }
-                rotation(berry.mesh, 'up');
-                rotation(berry.mesh, 'up');
+                rotation(this.berry.meshBerry, 'up');
+                rotation(this.berry.meshBerry, 'up');
                 break;
             case 'plane6':
                 for(let i = 0; i < this.tail.length; i++){
                     rotation(this.tail[i], 'up');
                 }
-                rotation(berry.mesh, 'up');
+                rotation(this.berry.meshBerry, 'up');
                 break;
         }
         this.getHeadPositionIndex(this.tail[this.tail.length - 1]);
@@ -218,7 +224,6 @@ export class Snake {
             this.direction = 'down';
             this.forbiddenDirection = 'up';
         }
-               
     }
 
     getHeadPositionIndex(object){

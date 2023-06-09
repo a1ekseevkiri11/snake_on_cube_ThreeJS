@@ -1,4 +1,4 @@
-import { optBerry } from "./config three.js";
+import { optBerry, optCommonBerry, optSuperBerry, optUnfoldBerry} from "./config three.js";
 import { getRandomIndexFromArray, getTilesWithoutSnake } from "./support functions.js";
 
 export class Berry{
@@ -6,29 +6,44 @@ export class Berry{
         this.params = params;
         this.tileMap = tileMap;
         this.satiety = 1;
-        this.position = this.tileMap.plane.plane2[this.tileMap.plane.plane2.length - 1][this.tileMap.plane.plane2[0].length - 1];
+        this.typeBerry;
+        this.mesh;
         this.initBerry();
     }
 
     initBerry(){
-        this.mesh = new THREE.Mesh(
+        this.meshBerry = new THREE.Mesh(
             new THREE.BoxBufferGeometry(optBerry.sizeX, optBerry.sizeY, optBerry.sizeZ),
-            new THREE.MeshStandardMaterial({
-                color: optBerry.color
-            }),
         );
-        this.mesh.position.copy(this.position);
-        this.params.scene.add(this.mesh);
+        this.params.scene.add(this.meshBerry);
     }
 
     updateBerry(tail){
+        let color;
+        if(Math.random() < optSuperBerry.probability){
+            this.typeBerry = optSuperBerry.type;
+            this.satiety = optSuperBerry.satiety;
+            color = optSuperBerry.color;
+        }
+        else if(Math.random() < optUnfoldBerry.probability){
+            this.typeBerry = optUnfoldBerry.type;
+            this.satiety = optUnfoldBerry.satiety;
+            color = optUnfoldBerry.color;
+        }
+        else{
+            this.typeBerry = optCommonBerry.type;
+            this.satiety = optCommonBerry.satiety;
+            color = optCommonBerry.color;
+        }
+
+        this.meshBerry.material = new THREE.MeshBasicMaterial({ color: color});
+        
         let tileWithoutSnake = getTilesWithoutSnake(tail, this.tileMap.plane);
         if(tileWithoutSnake.length === 0){
             console.log("Ладно, ты победил");
             return false;
         }
-        this.position = tileWithoutSnake[getRandomIndexFromArray(tileWithoutSnake)];
-        this.mesh.position.copy(this.position);
+        this.meshBerry.position.copy(tileWithoutSnake[getRandomIndexFromArray(tileWithoutSnake)]);
         return true;
     }
 }

@@ -56,9 +56,8 @@ class World {
 
     this.tileMap = new TileMap();
     this.platform = new Platform({scene: this.scene});
-    this.snake = new Snake({scene: this.scene}, this.tileMap);
     this.berry = new Berry({scene: this.scene}, this.tileMap);
-    
+    this.snake = new Snake({scene: this.scene}, this.tileMap, this.berry);
     /////test figure
     // this.mesh = new THREE.Mesh(
     //   new THREE.BoxBufferGeometry(optBerry.sizeX, optBerry.sizeY, optBerry.sizeZ),

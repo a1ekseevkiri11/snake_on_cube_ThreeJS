@@ -34,14 +34,32 @@ export const optTailSnake = {
 	sizeY: 0.99 * optVoxel.sizeY,
 	sizeZ: 0.99 * optVoxel.sizeZ,
 	color: 0x80FF80,
-	initLength: 4,
+	initLength: 2,
 }
 
 export const optBerry = {
 	sizeX: 1 * optVoxel.sizeX,
 	sizeY: 1 * optVoxel.sizeY,
 	sizeZ: 1 * optVoxel.sizeZ,
+}
+
+export const optCommonBerry = {
+	type: 'commonBerry',
 	color: 0x8B0000,
+	satiety: 1,
+}
+
+export const optSuperBerry = {
+	type: 'superBerry',
+	probability: 0.1,
+	color: 0xFF69B4,
+	satiety: 5,
+}
+
+export const optUnfoldBerry = {
+	type: 'unfoldBerry',
+	probability: 0.3,
+	color: 0xFFE4B5,
 	satiety: 1,
 }
 
