@@ -1,5 +1,4 @@
 import { optHeadSnake, optTailSnake } from "./config three.js";
-
 import { rotation } from "./support functions.js";
 
 export class Snake {
@@ -99,37 +98,25 @@ export class Snake {
     checkPlane(){
         if(this.position.indexHeight > this.tileMap.plane.plane2.length - 1){
             this.position.indexHeight = 0;
-            for(let i = 0; i < this.tail.length; i++){
-                rotation(this.tail[i], 'down');
-            }
-            rotation(this.berry.meshBerry, 'down');
+            this.rotationWorld('down');
             return;
         }
 
         if(this.position.indexHeight < 0){
             this.position.indexHeight = this.tileMap.plane.plane2[0].length - 1;
-            for(let i = 0; i < this.tail.length; i++){
-                rotation(this.tail[i], 'up');
-            }
-            rotation(this.berry.meshBerry, 'up');
+            this.rotationWorld('up');
             return;
         }
 
         if(this.position.indexWidth > this.tileMap.plane.plane2[0].length - 1){
             this.position.indexWidth = 0;
-            for(let i = 0; i < this.tail.length; i++){
-                rotation(this.tail[i], 'left');
-            }
-            rotation(this.berry.meshBerry, 'left');
+            this.rotationWorld('left');
             return;
         }
 
         if(this.position.indexWidth < 0){
             this.position.indexWidth = this.tileMap.plane.plane2.length - 1;
-            for(let i = 0; i < this.tail.length; i++){
-                rotation(this.tail[i], 'right');
-            }
-            rotation(this.berry.meshBerry, 'right');
+            this.rotationWorld('right');
             return;
         }
     }
@@ -172,38 +159,22 @@ export class Snake {
     unfoldTail(){
         switch(this.tileMap.getPlane(this.tail[this.tail.length - 1])){
             case 'plane1':
-                for(let i = 0; i < this.tail.length; i++){
-                    rotation(this.tail[i], 'down');
-                }
-                rotation(this.berry.meshBerry, 'down');
+                this.rotationWorld('down');
                 break;
             case 'plane2':
                 break;
             case 'plane3':
-                for(let i = 0; i < this.tail.length; i++){
-                    rotation(this.tail[i], 'left');
-                }
-                rotation(this.berry.meshBerry, 'left');
+                this.rotationWorld('left');
                 break;
             case 'plane4':
-                for(let i = 0; i < this.tail.length; i++){
-                    rotation(this.tail[i], 'right');
-                }
-                rotation(this.berry.meshBerry, 'right');
+                this.rotationWorld('right');
                 break;
             case 'plane5':
-                for(let i = 0; i < this.tail.length; i++){
-                    rotation(this.tail[i], 'up');
-                    rotation(this.tail[i], 'up');
-                }
-                rotation(this.berry.meshBerry, 'up');
-                rotation(this.berry.meshBerry, 'up');
+                this.rotationWorld('up');
+                this.rotationWorld('up');
                 break;
             case 'plane6':
-                for(let i = 0; i < this.tail.length; i++){
-                    rotation(this.tail[i], 'up');
-                }
-                rotation(this.berry.meshBerry, 'up');
+                this.rotationWorld('up');
                 break;
         }
         this.getHeadPositionIndex(this.tail[this.tail.length - 1]);
@@ -240,8 +211,36 @@ export class Snake {
         }
     }
 
-
-    // rotationWorld(){
-
-    // }
+    rotationWorld(directionRotation){
+        switch(directionRotation){
+            case 'up':
+                for(let i = 0; i < this.tail.length; i++){
+                    rotation(this.tail[i], 'up');
+                }
+                rotation(this.berry.meshBerry, 'up');
+                rotation(this.headMesh, 'up');
+                break;
+            case 'down':
+                for(let i = 0; i < this.tail.length; i++){
+                    rotation(this.tail[i], 'down');
+                }
+                rotation(this.berry.meshBerry, 'down');
+                rotation(this.headMesh, 'down');
+                break;
+            case 'left':
+                for(let i = 0; i < this.tail.length; i++){
+                    rotation(this.tail[i], 'left');
+                }
+                rotation(this.berry.meshBerry, 'left');
+                rotation(this.headMesh, 'left');
+                break;
+            case 'right':
+                for(let i = 0; i < this.tail.length; i++){
+                    rotation(this.tail[i], 'right');
+                }
+                rotation(this.berry.meshBerry, 'right');
+                rotation(this.headMesh, 'right');
+                break;
+        }
+    }
 }

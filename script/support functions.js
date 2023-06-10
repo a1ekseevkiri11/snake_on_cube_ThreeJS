@@ -1,16 +1,16 @@
 export function rotation(object, directionRotation){
     switch(directionRotation){
         case 'up':
-            [object.position.y, object.position.z] = [object.position.z, -object.position.y]
+            [object.position.y, object.position.z] = [object.position.z, -object.position.y];
             break;
         case 'down':
-            [object.position.y, object.position.z] = [-object.position.z, object.position.y]
+            [object.position.y, object.position.z] = [-object.position.z, object.position.y];
             break;
         case 'left':
-            [object.position.x, object.position.z] = [-object.position.z, object.position.x]
+            [object.position.x, object.position.z] = [-object.position.z, object.position.x];
             break;
         case 'right':
-            [object.position.x, object.position.z] = [object.position.z, -object.position.x]
+            [object.position.x, object.position.z] = [object.position.z, -object.position.x];
             break;
     }
 }

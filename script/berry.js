@@ -36,7 +36,7 @@ export class Berry{
             color = optCommonBerry.color;
         }
 
-        this.meshBerry.material = new THREE.MeshBasicMaterial({ color: color});
+        this.meshBerry.material = new THREE.MeshStandardMaterial({ color: color});
         
         let tileWithoutSnake = getTilesWithoutSnake(tail, this.tileMap.plane);
         if(tileWithoutSnake.length === 0){

@@ -9,7 +9,7 @@ export class TileMap{
             plane3: [],
             plane4: [],
             plane5: [],
-            plane6: []
+            plane6: [],
         };
         this.initTileMap();
     }
