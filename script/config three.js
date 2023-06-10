@@ -5,9 +5,9 @@ const optVoxel = {
 }
 
 export const optCamera = {
-	x: 20,
-	y: 20,
-	z: 25,
+	x: 0,
+	y: 0,
+	z: 40,
 	fov: 65,
 	near: 0.1,
 	far: 1000,
@@ -17,9 +17,8 @@ export const optScene = {
 	x: 0,
 	y: 0,
 	z: 0,
-	color: 0xDDDDDD,
+	color: 0x008B8B,
 }
-
 
 export const optHeadSnake = {
 	sizeX: 1 * optVoxel.sizeX,
@@ -47,6 +46,7 @@ export const optCommonBerry = {
 	type: 'commonBerry',
 	color: 0x8B0000,
 	satiety: 1,
+	score: 1,
 }
 
 export const optSuperBerry = {
@@ -54,6 +54,7 @@ export const optSuperBerry = {
 	probability: 0.1,
 	color: 0xFF69B4,
 	satiety: 5,
+	score: 10,
 }
 
 export const optUnfoldBerry = {
@@ -61,13 +62,14 @@ export const optUnfoldBerry = {
 	probability: 0.3,
 	color: 0xFFE4B5,
 	satiety: 1,
+	score: 5,
 }
 
 //only cube
 export const optPlatform = {
-	sizeX: 21 * optVoxel.sizeX,
-	sizeY: 21 * optVoxel.sizeY,
-	sizeZ: 21 * optVoxel.sizeZ,
+	sizeX: 11 * optVoxel.sizeX,
+	sizeY: 11 * optVoxel.sizeY,
+	sizeZ: 11 * optVoxel.sizeZ,
 	color: 0x1b222e,
 }
 

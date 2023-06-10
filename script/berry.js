@@ -7,6 +7,7 @@ export class Berry{
         this.tileMap = tileMap;
         this.satiety = 1;
         this.typeBerry;
+        this.score;
         this.mesh;
         this.initBerry();
     }
@@ -23,16 +24,19 @@ export class Berry{
         if(Math.random() < optSuperBerry.probability){
             this.typeBerry = optSuperBerry.type;
             this.satiety = optSuperBerry.satiety;
+            this.score = optSuperBerry.score;
             color = optSuperBerry.color;
         }
         else if(Math.random() < optUnfoldBerry.probability){
             this.typeBerry = optUnfoldBerry.type;
             this.satiety = optUnfoldBerry.satiety;
+            this.score = optUnfoldBerry.score;
             color = optUnfoldBerry.color;
         }
         else{
             this.typeBerry = optCommonBerry.type;
             this.satiety = optCommonBerry.satiety;
+            this.score = optCommonBerry.score;
             color = optCommonBerry.color;
         }
 

@@ -1,4 +1,5 @@
 import { optHeadSnake, optTailSnake } from "./config three.js";
+import { Score } from './score.js';
 import { rotation } from "./support functions.js";
 
 export class Snake {
@@ -7,6 +8,7 @@ export class Snake {
         this.params = params;
         this.tileMap = tileMap;
         this.berry = berry;
+        this.score = new Score();
         this.clock = new THREE.Clock(true);
         this.dead = false;
         this.position = {
@@ -86,6 +88,9 @@ export class Snake {
                 }
                 for(let i = 0; i < this.berry.satiety; i++){
                     this.grow();
+                }
+                for(let i = 0; i < this.berry.score; i++){
+                    this.score.incScore();
                 }
                 if(!this.berry.updateBerry(this.tail.slice())){
                     this.dead = true;

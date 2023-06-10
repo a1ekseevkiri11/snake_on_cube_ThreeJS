@@ -1,4 +1,4 @@
-import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
+// import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
 import { TileMap } from './tileMap.js';
 import { Snake } from './snake.js';
 import { Berry } from './berry.js';
@@ -10,11 +10,12 @@ import {
   optScene,
   optAmbLight,
   optDirLight,
-  optBerry
 } from "./config three.js";
+
 
 class World {
   constructor() {
+    this.gameStarted = false;
     this.initialize();
   }
 
@@ -49,15 +50,17 @@ class World {
     this.scene.add(dirLight);
 
 
-    const controls = new OrbitControls(this.camera, this.renderer.domElement);
-    controls.target.set(0, 0, 0);
-    controls.update();
+    // const controls = new OrbitControls(this.camera, this.renderer.domElement);
+    // controls.target.set(0, 0, 0);
+    // controls.update();
 
 
     this.tileMap = new TileMap();
     this.platform = new Platform({scene: this.scene});
     this.berry = new Berry({scene: this.scene}, this.tileMap);
     this.snake = new Snake({scene: this.scene}, this.tileMap, this.berry);
+
+
     /////test figure
     // this.mesh = new THREE.Mesh(
     //   new THREE.BoxBufferGeometry(optBerry.sizeX, optBerry.sizeY, optBerry.sizeZ),
@@ -79,13 +82,17 @@ class World {
 
   RAF() {
     requestAnimationFrame(() => {
+      if(this.snake.dead){
+        document.getElementById('game-over').classList.toggle('active');
+        return;
+      }
       this.snake.update(this.berry);
       this.renderer.render(this.scene, this.camera);
       this.RAF();
     });
   }
-
 }
+
 
 window.addEventListener('DOMContentLoaded', () => {
   const APP = new World();
