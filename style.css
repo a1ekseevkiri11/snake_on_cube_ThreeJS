@@ -34,6 +34,7 @@ body{
 
 .game-over-layout {
     opacity: 0.0;
+    display: none;
 }
 
 .game-over-layout.active {
@@ -51,9 +52,12 @@ body{
 }
 
 .game-restart-text{
+    font-family: 'Press Start 2P', cursive;
     font-size: 20px;
     color: white;
+    background: #00000000;
     text-shadow: 5px 5px black;
+    border: none;
 }
 
 .game-over-text {
@@ -62,6 +66,7 @@ body{
     text-shadow: 8px 8px black;
     margin-bottom: 10px;
 }
+
 
 .score-layout {
     display: flex;

@@ -16,17 +16,25 @@ import {
 class World {
   constructor() {
     this.initialize();
+    this.initInput();
+  }
+
+  initInput(){
+    document.getElementById("game-restart").addEventListener("click", (e) => {
+      this.restart()
+    });
+    document.addEventListener("keydown",  (e) => {
+      if(e.code === "KeyR"){
+        this.restart();
+      }
+    });
   }
 
   restart(){
-    document.addEventListener("keydown",  (e) => {
-      if(e.code === "KeyR"){
-        document.getElementById('game-over').classList.remove('active');
-        this.snake.deleteSnake();
-        this.initObject();
-        return;
-      }
-    });
+    document.getElementById('game-over').classList.remove('active');
+    this.snake.deleteSnake();
+    this.initObject();
+    return;
   }
 
   initialize() {
@@ -67,7 +75,6 @@ class World {
 
     this.tileMap = new TileMap();
     this.platform = new Platform({scene: this.scene});
-    this.restart();
     this.initObject();
   }
 
