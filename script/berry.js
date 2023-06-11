@@ -6,16 +6,14 @@ export class Berry{
         this.params = params;
         this.tileMap = tileMap;
         this.satiety = 1;
-        this.typeBerry;
-        this.score;
-        this.mesh;
         this.initBerry();
     }
 
     initBerry(){
         this.meshBerry = new THREE.Mesh(
-            new THREE.BoxBufferGeometry(optBerry.sizeX, optBerry.sizeY, optBerry.sizeZ),
+            new THREE.BoxGeometry(optBerry.sizeX, optBerry.sizeY, optBerry.sizeZ),
         );
+        this.meshBerry.name = "berry";
         this.params.scene.add(this.meshBerry);
     }
 
@@ -44,10 +42,14 @@ export class Berry{
         
         let tileWithoutSnake = getTilesWithoutSnake(tail, this.tileMap.plane);
         if(tileWithoutSnake.length === 0){
-            console.log("Ладно, ты победил");
+            console.log("Ладно, ты победил!");
             return false;
         }
         this.meshBerry.position.copy(tileWithoutSnake[getRandomIndexFromArray(tileWithoutSnake)]);
         return true;
+    }
+
+    deleteBerry(){
+        this.params.scene.remove(this.meshBerry);
     }
 }

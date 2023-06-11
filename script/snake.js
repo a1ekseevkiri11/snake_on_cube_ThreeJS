@@ -14,10 +14,9 @@ export class Snake {
         this.position = {
             indexHeight: 0,
             indexWidth: 0,
-        }
+        };
         this.direction = 'up';
         this.forbiddenDirection = 'down';
-        this.headMesh;
         this.tail = [];
         this.initSnake();
         this.initInput();
@@ -25,11 +24,12 @@ export class Snake {
 
     initSnake(){
         this.headMesh = new THREE.Mesh(
-            new THREE.BoxBufferGeometry(optHeadSnake.sizeX,optHeadSnake.sizeY,optHeadSnake.sizeZ),
+            new THREE.BoxGeometry(optHeadSnake.sizeX,optHeadSnake.sizeY,optHeadSnake.sizeZ),
             new THREE.MeshStandardMaterial({
                 color: optHeadSnake.color
             }),
         );
+        this.headMesh.name = "head";
         this.params.scene.add(this.headMesh);
         for(let i = 0; i < optTailSnake.initLength; i++){
             this.grow();
@@ -53,11 +53,12 @@ export class Snake {
 
     grow(){
         const mesh = new THREE.Mesh(
-            new THREE.BoxBufferGeometry(optTailSnake.sizeX, optTailSnake.sizeY, optTailSnake.sizeZ),
+            new THREE.BoxGeometry(optTailSnake.sizeX, optTailSnake.sizeY, optTailSnake.sizeZ),
             new THREE.MeshStandardMaterial({
                 color: optTailSnake.color,
             }),
         );
+        mesh.name = "tail";
         this.tail.push(mesh);
         this.params.scene.add(this.tail[this.tail.length - 1]);
     }
@@ -158,7 +159,7 @@ export class Snake {
                 this.tail[0].position.copy(this.headMesh.position);
                 this.checkColisions(this.berry);
             }
-        }        
+        }
     }
 
     unfoldTail(){
@@ -247,5 +248,13 @@ export class Snake {
                 rotation(this.headMesh, 'right');
                 break;
         }
+    }
+
+    deleteSnake(){
+        this.params.scene.remove(this.headMesh);
+        for(let i = 0; i < this.tail.length; i++){
+            this.params.scene.remove(this.tail[i]);
+        }
+        this.berry.deleteBerry();
     }
 }

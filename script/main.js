@@ -15,8 +15,18 @@ import {
 
 class World {
   constructor() {
-    this.gameStarted = false;
     this.initialize();
+  }
+
+  restart(){
+    document.addEventListener("keydown",  (e) => {
+      if(e.code === "KeyR"){
+        document.getElementById('game-over').classList.remove('active');
+        this.snake.deleteSnake();
+        this.initObject();
+        return;
+      }
+    });
   }
 
   initialize() {
@@ -57,20 +67,13 @@ class World {
 
     this.tileMap = new TileMap();
     this.platform = new Platform({scene: this.scene});
+    this.restart();
+    this.initObject();
+  }
+
+  initObject(){
     this.berry = new Berry({scene: this.scene}, this.tileMap);
     this.snake = new Snake({scene: this.scene}, this.tileMap, this.berry);
-
-
-    /////test figure
-    // this.mesh = new THREE.Mesh(
-    //   new THREE.BoxBufferGeometry(optBerry.sizeX, optBerry.sizeY, optBerry.sizeZ),
-    //   new THREE.MeshStandardMaterial({
-    //       color: optBerry.color
-    //   }),
-    // );
-    // this.mesh.position.copy(this.tileMap.plane.plane2[4][4]);
-    // this.scene.add(this.mesh);
-    
     this.RAF();
   }
 
@@ -83,7 +86,7 @@ class World {
   RAF() {
     requestAnimationFrame(() => {
       if(this.snake.dead){
-        document.getElementById('game-over').classList.toggle('active');
+        document.getElementById('game-over').classList.add('active');
         return;
       }
       this.snake.update(this.berry);

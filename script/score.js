@@ -9,6 +9,11 @@ export class Score{
         this.score++;
         this.write();
     }
+
+    setToZero() {
+        this.score = 0;
+        this.draw();
+    }
     
     write(){
         this.scoreBlock.textContent = this.score;

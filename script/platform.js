@@ -8,7 +8,7 @@ export class Platform{
 
     intPlatform(){
         this.platformMesh = new THREE.Mesh(
-            new THREE.BoxBufferGeometry(optPlatform.sizeX, optPlatform.sizeY, optPlatform.sizeZ),
+            new THREE.BoxGeometry(optPlatform.sizeX, optPlatform.sizeY, optPlatform.sizeZ),
             new THREE.MeshStandardMaterial({
                 color: optPlatform.color
             }),
