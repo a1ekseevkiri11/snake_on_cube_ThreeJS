@@ -7,7 +7,7 @@ const optVoxel = {
 export const optCamera = {
 	x: 0,
 	y: 0,
-	z: 40,
+	z: 30,
 	fov: 65,
 	near: 0.1,
 	far: 1000,

@@ -71,8 +71,6 @@ class World {
     // const controls = new OrbitControls(this.camera, this.renderer.domElement);
     // controls.target.set(0, 0, 0);
     // controls.update();
-
-
     this.tileMap = new TileMap();
     this.platform = new Platform({scene: this.scene});
     this.initObject();
