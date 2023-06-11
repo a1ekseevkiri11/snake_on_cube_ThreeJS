@@ -65,15 +65,24 @@ body{
 
 .score-layout {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
 }
 
 .score-text {
-    font-size: 30px;
+    font-size: 20px;
     color: white;
-    padding: 30px;
+    margin-right: 20px;
+    text-shadow: 3px 3px black;
+}
+
+.record-score-text{
+    font-size: 20px;
+    color: white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 20px;
     text-shadow: 3px 3px black;
 }
 

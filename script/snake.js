@@ -49,6 +49,40 @@ export class Snake {
                 this.direction = 'right';
             }
         });
+
+        let initialPoint;
+        let finalPoint;
+        document.addEventListener('touchstart', (e) => {
+            e.stopPropagation();
+            initialPoint=e.changedTouches[0];
+        }, false);
+        
+        document.addEventListener('touchend', (e) => {
+            e.stopPropagation();
+            finalPoint=e.changedTouches[0];
+
+            let xAbs = Math.abs(initialPoint.pageX - finalPoint.pageX);
+            let yAbs = Math.abs(initialPoint.pageY - finalPoint.pageY);
+            
+            if (xAbs > 20 || yAbs > 20) {
+                if (xAbs > yAbs) {
+                    if (finalPoint.pageX < initialPoint.pageX && this.forbiddenDirection !== 'left'){
+                        this.direction = 'left';
+                    }
+                    else if(finalPoint.pageX > initialPoint.pageX && this.forbiddenDirection !== 'right'){
+                        this.direction = 'right';
+                    }
+                }
+                else {
+                    if (finalPoint.pageY < initialPoint.pageY && this.forbiddenDirection !== 'up'){
+                        this.direction = 'up';
+                    }
+                    else if (finalPoint.pageY > initialPoint.pageY && this.forbiddenDirection !== 'down'){
+                        this.direction = 'down';
+                    }
+                }
+            }
+        }, false);                
     }
 
     grow(){
@@ -132,7 +166,6 @@ export class Snake {
         if(!this.dead){
             if (this.clock.getElapsedTime() > optHeadSnake.spead){
                 this.clock.start();
-
                 for(let i = this.tail.length - 1; i >= 1; i--){
                     this.tail[i].position.copy(this.tail[i - 1].position);
                 }
