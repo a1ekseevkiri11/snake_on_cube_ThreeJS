@@ -1,6 +1,4 @@
-import { CommonBerrySound, 
-	SuperBerrySound, 
-	UnfoldBerrySound } from './sound.js';
+import { CommonBerrySound, SuperBerrySound, UnfoldBerrySound } from './sound.js';
 
 
 const optVoxel = {

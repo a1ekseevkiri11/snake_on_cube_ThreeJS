@@ -1,14 +1,9 @@
 // import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
 
 import { TileMap } from './tileMap.js';
-
 import { Snake } from './snake.js';
-
 import { Berry } from './berry.js';
-
 import { Platform } from './platform.js';
-
-import { GameOverSound } from './sound.js';
 
 import {
   optCamera,
@@ -36,7 +31,6 @@ class World {
   }
 
   restart(){
-    GameOverSound.load();
     document.getElementById('game-over').classList.remove('active');
     this.snake.deleteSnake();
     this.initObject();
@@ -83,12 +77,12 @@ class World {
     this.tileMap = new TileMap();
     this.platform = new Platform({scene: this.scene});
     this.initObject();
+    this.RAF();
   }
 
   initObject(){
     this.berry = new Berry({scene: this.scene}, this.tileMap);
     this.snake = new Snake({scene: this.scene}, this.tileMap, this.berry);
-    this.RAF();
   }
 
   onWindowResize() {
@@ -97,20 +91,22 @@ class World {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
+  update(){
+    if(this.snake.dead){
+      document.getElementById('game-over').classList.add('active');
+      return;
+    }
+    this.snake.update(this.berry);
+  }
+
   RAF() {
     requestAnimationFrame(() => {
-      if(this.snake.dead){
-        GameOverSound.play();
-        document.getElementById('game-over').classList.add('active');
-        return;
-      }
-      this.snake.update(this.berry);
+      this.update();
       this.renderer.render(this.scene, this.camera);
       this.RAF();
     });
   }
 }
-
 
 window.addEventListener('DOMContentLoaded', () => {
   const APP = new World();

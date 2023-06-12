@@ -1,10 +1,6 @@
-import { optBerry, 
-    optCommonBerry, 
-    optSuperBerry, 
-    optUnfoldBerry} from "./config three.js";
+import { optBerry, optCommonBerry, optSuperBerry, optUnfoldBerry} from "./config three.js";
 
-import { getRandomIndexFromArray, 
-    getTilesWithoutSnake } from "./support functions.js";
+import { getRandomIndexFromArray, getTilesWithoutSnake } from "./support functions.js";
 
 
 export class Berry{

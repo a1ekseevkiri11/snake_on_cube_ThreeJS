@@ -1,14 +1,19 @@
-import { optHeadSnake, 
-    optTailSnake } from "./config three.js";
+import { optHeadSnake, optTailSnake } from "./config three.js";
 
 import { Score } from './score.js';
 
 import { rotation } from "./support functions.js";
 
+import { GameOverSound, GameStartSound } from './sound.js';
+
 
 export class Snake {
     
     constructor(params, tileMap, berry) {
+        GameOverSound.load();
+        GameStartSound.load();
+        GameStartSound.play();
+        
         this.params = params;
         this.tileMap = tileMap;
         this.berry = berry;
@@ -117,6 +122,8 @@ export class Snake {
             if(this.headMesh.position.x === this.tail[i].position.x &&
                 this.headMesh.position.y === this.tail[i].position.y &&
                 this.headMesh.position.z === this.tail[i].position.z){
+                    GameStartSound.load();
+                    GameOverSound.play();
                     this.dead = true;
                     break;
             }
@@ -127,7 +134,6 @@ export class Snake {
         if(this.headMesh.position.x === this.berry.meshBerry.position.x &&
             this.headMesh.position.y ===  this.berry.meshBerry.position.y &&
             this.headMesh.position.z ===  this.berry.meshBerry.position.z){
-                this.berry.sound.load();
                 this.berry.sound.play();
                 if(this.berry.typeBerry === 'unfoldBerry'){
                     this.unfoldTail(); 
@@ -204,6 +210,7 @@ export class Snake {
                 this.checkColisions(this.berry);
             }
         }
+        
     }
 
     unfoldTail(){

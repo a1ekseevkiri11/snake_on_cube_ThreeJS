@@ -5,3 +5,5 @@ export const SuperBerrySound = new Audio('../sound/SuperBerrySound.mp3');
 export const UnfoldBerrySound = new Audio('../sound/UnfoldBerrySound.mp3');
 
 export const GameOverSound = new Audio('../sound/GameOverSound.mp3');
+
+export const GameStartSound = new Audio('../sound/GameStartSound.mp3');
