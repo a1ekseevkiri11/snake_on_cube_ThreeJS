@@ -1,4 +1,4 @@
-import { optPlatform} from "./config three.js";
+import { optPlatform } from "./config three.js";
 
 export class Platform{
     constructor(params){

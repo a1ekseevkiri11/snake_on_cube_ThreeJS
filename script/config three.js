@@ -1,3 +1,8 @@
+import { CommonBerrySound, 
+	SuperBerrySound, 
+	UnfoldBerrySound } from './sound.js';
+
+
 const optVoxel = {
 	sizeX: 1,
 	sizeY: 1,
@@ -47,6 +52,7 @@ export const optCommonBerry = {
 	color: 0x8B0000,
 	satiety: 1,
 	score: 1,
+	sound: CommonBerrySound,
 }
 
 export const optSuperBerry = {
@@ -55,6 +61,7 @@ export const optSuperBerry = {
 	color: 0xFF69B4,
 	satiety: 5,
 	score: 10,
+	sound: SuperBerrySound,
 }
 
 export const optUnfoldBerry = {
@@ -63,6 +70,7 @@ export const optUnfoldBerry = {
 	color: 0xFFE4B5,
 	satiety: 1,
 	score: 5,
+	sound: UnfoldBerrySound,
 }
 
 //only cube

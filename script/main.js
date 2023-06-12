@@ -1,9 +1,14 @@
 // import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
+
 import { TileMap } from './tileMap.js';
+
 import { Snake } from './snake.js';
+
 import { Berry } from './berry.js';
+
 import { Platform } from './platform.js';
 
+import { GameOverSound } from './sound.js';
 
 import {
   optCamera,
@@ -31,6 +36,8 @@ class World {
   }
 
   restart(){
+    GameOverSound.pause();
+    GameOverSound.load();
     document.getElementById('game-over').classList.remove('active');
     this.snake.deleteSnake();
     this.initObject();
@@ -94,6 +101,7 @@ class World {
   RAF() {
     requestAnimationFrame(() => {
       if(this.snake.dead){
+        GameOverSound.play();
         document.getElementById('game-over').classList.add('active');
         return;
       }

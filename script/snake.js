@@ -1,6 +1,10 @@
-import { optHeadSnake, optTailSnake } from "./config three.js";
+import { optHeadSnake, 
+    optTailSnake } from "./config three.js";
+
 import { Score } from './score.js';
+
 import { rotation } from "./support functions.js";
+
 
 export class Snake {
     
@@ -37,7 +41,6 @@ export class Snake {
             this.grow();
         }
         this.berry.updateBerry(this.tail.slice());
-        
     }
 
     initInput() {
@@ -124,7 +127,8 @@ export class Snake {
         if(this.headMesh.position.x === this.berry.meshBerry.position.x &&
             this.headMesh.position.y ===  this.berry.meshBerry.position.y &&
             this.headMesh.position.z ===  this.berry.meshBerry.position.z){
-                if(this.berry.typeBerry ==='unfoldBerry'){
+                this.berry.sound.play();
+                if(this.berry.typeBerry === 'unfoldBerry'){
                     this.unfoldTail(); 
                 }
                 for(let i = 0; i < this.berry.satiety; i++){
