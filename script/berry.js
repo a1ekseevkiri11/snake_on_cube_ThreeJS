@@ -14,6 +14,8 @@ export class Berry{
             new THREE.BoxGeometry(optBerry.sizeX, optBerry.sizeY, optBerry.sizeZ),
         );
         this.meshBerry.name = "berry";
+        this.meshBerry.castShadow = true;
+        this.meshBerry.receiveShadow = true;
         this.params.scene.add(this.meshBerry);
     }
 

@@ -25,16 +25,19 @@ export class Snake {
     initSnake(){
         this.headMesh = new THREE.Mesh(
             new THREE.BoxGeometry(optHeadSnake.sizeX,optHeadSnake.sizeY,optHeadSnake.sizeZ),
-            new THREE.MeshStandardMaterial({
+            new THREE.MeshLambertMaterial({
                 color: optHeadSnake.color
             }),
         );
         this.headMesh.name = "head";
+        this.headMesh.castShadow = true;
+        this.headMesh.receiveShadow = true;
         this.params.scene.add(this.headMesh);
         for(let i = 0; i < optTailSnake.initLength; i++){
             this.grow();
         }
         this.berry.updateBerry(this.tail.slice());
+        
     }
 
     initInput() {
@@ -88,13 +91,16 @@ export class Snake {
     grow(){
         const mesh = new THREE.Mesh(
             new THREE.BoxGeometry(optTailSnake.sizeX, optTailSnake.sizeY, optTailSnake.sizeZ),
-            new THREE.MeshStandardMaterial({
+            new THREE.MeshLambertMaterial({
                 color: optTailSnake.color,
             }),
         );
         mesh.name = "tail";
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
         this.tail.push(mesh);
         this.params.scene.add(this.tail[this.tail.length - 1]);
+       
     }
 
     //проверка пересечений

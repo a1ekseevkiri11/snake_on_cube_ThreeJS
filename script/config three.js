@@ -29,9 +29,9 @@ export const optHeadSnake = {
 }
 
 export const optTailSnake = {
-	sizeX: 0.99 * optVoxel.sizeX,
-	sizeY: 0.99 * optVoxel.sizeY,
-	sizeZ: 0.99 * optVoxel.sizeZ,
+	sizeX: 0.9 * optVoxel.sizeX,
+	sizeY: 0.9 * optVoxel.sizeY,
+	sizeZ: 0.9 * optVoxel.sizeZ,
 	color: 0x80FF80,
 	initLength: 2,
 }
@@ -74,9 +74,9 @@ export const optPlatform = {
 }
 
 export const optDirLight = {
-	x: 20,
-	y: 100,
-	z: 10,
+	x: 0,
+	y: 10,
+	z: 60,
 	color: 0xffffff,
 	inten: 1,
 }

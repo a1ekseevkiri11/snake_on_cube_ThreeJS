@@ -59,18 +59,21 @@ class World {
     this.scene = new THREE.Scene();
     this.scene.position.set(optScene.x, optScene.y, optScene.z);
 
-    const ambLight = new THREE.AmbientLight(optAmbLight.color, optAmbLight.inten);
-    ambLight.position.set(optAmbLight.x, optAmbLight.y, optAmbLight.z);
-    this.scene.add(ambLight);
+    // const ambLight = new THREE.AmbientLight(optAmbLight.color, optAmbLight.inten);
+    // ambLight.position.set(optAmbLight.x, optAmbLight.y, optAmbLight.z);
+    // ambLight.castShadow = true;
+    // this.scene.add(ambLight);
 
-    const dirLight = new THREE.DirectionalLight(optDirLight.color, optDirLight.inten);
+    const dirLight = new THREE.DirectionalLight(optDirLight.color, optDirLight.inten, 500, 0.01);
     dirLight.position.set(optDirLight.x, optDirLight.y, optDirLight.z);
+    dirLight.castShadow = true;
     this.scene.add(dirLight);
 
 
     // const controls = new OrbitControls(this.camera, this.renderer.domElement);
     // controls.target.set(0, 0, 0);
     // controls.update();
+
     this.tileMap = new TileMap();
     this.platform = new Platform({scene: this.scene});
     this.initObject();
