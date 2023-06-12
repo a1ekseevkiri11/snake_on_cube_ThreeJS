@@ -25,7 +25,7 @@ class World {
   }
 
   initInput(){
-    document.getElementById("game-restart").addEventListener("click", (e) => {
+    document.getElementById("game-restart").addEventListener("click", () => {
       this.restart()
     });
     document.addEventListener("keydown",  (e) => {
@@ -36,7 +36,6 @@ class World {
   }
 
   restart(){
-    GameOverSound.pause();
     GameOverSound.load();
     document.getElementById('game-over').classList.remove('active');
     this.snake.deleteSnake();

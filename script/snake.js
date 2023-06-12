@@ -127,6 +127,7 @@ export class Snake {
         if(this.headMesh.position.x === this.berry.meshBerry.position.x &&
             this.headMesh.position.y ===  this.berry.meshBerry.position.y &&
             this.headMesh.position.z ===  this.berry.meshBerry.position.z){
+                this.berry.sound.load();
                 this.berry.sound.play();
                 if(this.berry.typeBerry === 'unfoldBerry'){
                     this.unfoldTail(); 
