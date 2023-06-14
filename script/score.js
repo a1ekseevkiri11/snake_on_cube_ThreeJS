@@ -15,13 +15,18 @@ export class Score{
     updateRecordScore(){
         if(this.recordScore < this.score){
             this.recordScore = this.score;
-            localStorage.setItem('record', this.recordScore);
         }
     }
 
     incScore(){
         this.score++;
         this.updateRecordScore();
+        this.write();
+    }
+
+    setToZeroScore(){
+        this.score = 0;
+        localStorage.setItem('record', this.recordScore);
         this.write();
     }
     

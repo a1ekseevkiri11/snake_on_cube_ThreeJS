@@ -10,8 +10,11 @@ import {
   optScene,
   optAmbLight,
   optDirLight,
-} from "./config three.js";
+} from "./config scene.js";
 
+import { optPlatform } from "./config geometry.js";
+
+const proportion = optCamera.z / optPlatform.sizeZ;
 
 class World {
   constructor() {
@@ -51,18 +54,17 @@ class World {
       this.onWindowResize();
     }, false);
 
+    this.scene = new THREE.Scene();
+    this.scene.position.set(optScene.x, optScene.y, optScene.z);
+
     this.camera = new THREE.PerspectiveCamera( optCamera.fov, window.innerWidth / window.innerHeight, optCamera.near, optCamera.far);
     this.camera.position.set(optCamera.x, optCamera.y, optCamera.z);
     this.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-
-    this.scene = new THREE.Scene();
-    this.scene.position.set(optScene.x, optScene.y, optScene.z);
-
-    // const ambLight = new THREE.AmbientLight(optAmbLight.color, optAmbLight.inten);
-    // ambLight.position.set(optAmbLight.x, optAmbLight.y, optAmbLight.z);
-    // ambLight.castShadow = true;
-    // this.scene.add(ambLight);
+    const ambLight = new THREE.AmbientLight(optAmbLight.color, optAmbLight.inten);
+    ambLight.position.set(optAmbLight.x, optAmbLight.y, optAmbLight.z);
+    ambLight.castShadow = true;
+    this.scene.add(ambLight);
 
     const dirLight = new THREE.DirectionalLight(optDirLight.color, optDirLight.inten, 500, 0.01);
     dirLight.position.set(optDirLight.x, optDirLight.y, optDirLight.z);
@@ -96,7 +98,11 @@ class World {
       document.getElementById('game-over').classList.add('active');
       return;
     }
-    this.snake.update(this.berry);
+    this.snake.update();
+
+    //1 version follow camera */very bed!!!/*
+    // this.camera.position.x = this.snake.headMesh.position.x * proportion;
+    // this.camera.position.y = this.snake.headMesh.position.y * proportion;
   }
 
   RAF() {

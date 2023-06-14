@@ -1,20 +1,16 @@
-import { optHeadSnake, optTailSnake } from "./config three.js";
-
+import { optHeadSnake, optTailSnake, optPlatform } from "./config geometry.js";
 import { Score } from './score.js';
-
 import { rotation } from "./support functions.js";
-
 import { GameOverSound, GameStartSound } from './sound.js';
+import { optCamera } from "./config scene.js";
 
+const proportionRotation = optCamera.z / optPlatform.sizeZ * 0.075;
 
 export class Snake {
     
     constructor(params, tileMap, berry) {
-        GameOverSound.load();
-        GameStartSound.load();
-        GameStartSound.play();
-        
         this.params = params;
+        console.log(this.params);
         this.tileMap = tileMap;
         this.berry = berry;
         this.score = new Score();
@@ -27,27 +23,10 @@ export class Snake {
         this.direction = 'up';
         this.forbiddenDirection = 'down';
         this.tail = [];
-        this.initSnake();
         this.initInput();
+        this.initSnake();
     }
-
-    initSnake(){
-        this.headMesh = new THREE.Mesh(
-            new THREE.BoxGeometry(optHeadSnake.sizeX,optHeadSnake.sizeY,optHeadSnake.sizeZ),
-            new THREE.MeshLambertMaterial({
-                color: optHeadSnake.color
-            }),
-        );
-        this.headMesh.name = "head";
-        this.headMesh.castShadow = true;
-        this.headMesh.receiveShadow = true;
-        this.params.scene.add(this.headMesh);
-        for(let i = 0; i < optTailSnake.initLength; i++){
-            this.grow();
-        }
-        this.berry.updateBerry(this.tail.slice());
-    }
-
+    
     initInput() {
         document.addEventListener("keydown",  (e) => {
             if ( e.code === "KeyW" &&  this.forbiddenDirection !== 'up') {
@@ -61,6 +40,7 @@ export class Snake {
             }
         });
 
+        //для мобилки
         let initialPoint;
         let finalPoint;
         document.addEventListener('touchstart', (e) => {
@@ -93,7 +73,55 @@ export class Snake {
                     }
                 }
             }
-        }, false);                
+        }, false);
+
+
+        //звук
+        if(localStorage.getItem('muted') === 'noisy'){
+            this.muted = localStorage.getItem('muted');
+        }
+        else{
+            this.muted = 'muted';
+        }
+
+        if(this.muted === 'muted'){
+            document.getElementById('muted').classList.remove('active');
+        }
+        else{
+            document.getElementById('muted').classList.add('active');
+        }
+
+        document.getElementById("muted").addEventListener("click", () => {
+            if(this.muted !== 'noisy'){
+                document.getElementById('muted').classList.add('active');
+                this.muted = 'noisy';
+                return;
+            }
+            document.getElementById('muted').classList.remove('active');
+            this.muted = 'muted';
+        });
+    }
+
+    initSnake(){
+        if(this.muted !== 'muted'){
+            GameOverSound.load();
+            GameStartSound.load();
+            GameStartSound.play();
+        }
+        this.headMesh = new THREE.Mesh(
+            new THREE.BoxGeometry(optHeadSnake.sizeX,optHeadSnake.sizeY,optHeadSnake.sizeZ),
+            new THREE.MeshLambertMaterial({
+                color: optHeadSnake.color
+            }),
+        );
+        this.headMesh.name = "head";
+        this.headMesh.castShadow = true;
+        this.headMesh.receiveShadow = true;
+        this.params.scene.add(this.headMesh);
+        for(let i = 0; i < optTailSnake.initLength; i++){
+            this.grow();
+        }
+        this.berry.updateBerry(this.tail.slice());
     }
 
     grow(){
@@ -108,13 +136,12 @@ export class Snake {
         mesh.receiveShadow = true;
         this.tail.push(mesh);
         this.params.scene.add(this.tail[this.tail.length - 1]);
-       
     }
 
     //проверка пересечений
     checkColisions(){
         this.checkColisionsSnake();
-        this.checkColisionsBerry(this.berry);
+        this.checkColisionsBerry();
     }
 
     checkColisionsSnake(){
@@ -122,8 +149,10 @@ export class Snake {
             if(this.headMesh.position.x === this.tail[i].position.x &&
                 this.headMesh.position.y === this.tail[i].position.y &&
                 this.headMesh.position.z === this.tail[i].position.z){
-                    GameStartSound.load();
-                    GameOverSound.play();
+                    if(this.muted !== 'muted'){
+                        GameStartSound.load();
+                        GameOverSound.play();
+                    }
                     this.dead = true;
                     break;
             }
@@ -134,7 +163,9 @@ export class Snake {
         if(this.headMesh.position.x === this.berry.meshBerry.position.x &&
             this.headMesh.position.y ===  this.berry.meshBerry.position.y &&
             this.headMesh.position.z ===  this.berry.meshBerry.position.z){
-                this.berry.sound.play();
+                if(this.muted !== 'muted'){
+                    this.berry.sound.play();
+                }
                 if(this.berry.typeBerry === 'unfoldBerry'){
                     this.unfoldTail(); 
                 }
@@ -178,7 +209,6 @@ export class Snake {
         }
     }
     
-    
     update() {
         if(!this.dead){
             if (this.clock.getElapsedTime() > optHeadSnake.spead){
@@ -204,10 +234,12 @@ export class Snake {
                         this.forbiddenDirection = 'left';
                         break;
                 }
-                this.checkPlane(this.berry);
+                this.checkPlane();
                 this.headMesh.position.copy(this.tileMap.plane.plane2[this.position.indexHeight][this.position.indexWidth]);
                 this.tail[0].position.copy(this.headMesh.position);
-                this.checkColisions(this.berry);
+                this.checkColisions();
+                this.params.scene.rotation.y = (-this.headMesh.position.x * proportionRotation);
+                this.params.scene.rotation.x = (this.headMesh.position.y * proportionRotation);
             }
         }
         
@@ -302,6 +334,8 @@ export class Snake {
     }
 
     deleteSnake(){
+        this.score.setToZeroScore();
+        localStorage.setItem('muted', this.muted);
         this.params.scene.remove(this.headMesh);
         for(let i = 0; i < this.tail.length; i++){
             this.params.scene.remove(this.tail[i]);

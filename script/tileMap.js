@@ -1,5 +1,6 @@
-import { optHeadSnake, optPlatform } from "./config three.js";
+import { optPlatform } from "./config geometry.js";
 import { rotationPlane } from "./support functions.js";
+import { optVoxel } from './config voxel.js';
 
 export class TileMap{
     constructor(){
@@ -15,10 +16,10 @@ export class TileMap{
     }
 
     initTileMap(){
-        for(let i = -(optPlatform.sizeX - optHeadSnake.sizeX) / 2; i <= (optPlatform.sizeX - optHeadSnake.sizeX) / 2; i++){
+        for(let i = -(optPlatform.sizeX - optVoxel.sizeX) / 2; i <= (optPlatform.sizeX - optVoxel.sizeX) / 2; i++){
             let line = [];
-            for(let j = -(optPlatform.sizeY - optHeadSnake.sizeY) / 2; j <= (optPlatform.sizeY - optHeadSnake.sizeY) / 2; j++){
-                line.push(new THREE.Vector3(j, i, (optPlatform.sizeY  + optHeadSnake.sizeY) / 2));
+            for(let j = -(optPlatform.sizeY - optVoxel.sizeY) / 2; j <= (optPlatform.sizeY - optVoxel.sizeY) / 2; j++){
+                line.push(new THREE.Vector3(j, i, (optPlatform.sizeY  + optVoxel.sizeY) / 2));
             }
             this.plane.plane2.push(line);
         }

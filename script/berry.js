@@ -1,4 +1,4 @@
-import { optBerry, optCommonBerry, optSuperBerry, optUnfoldBerry} from "./config three.js";
+import { optBerry, optCommonBerry, optSuperBerry, optUnfoldBerry} from "./config geometry.js";
 
 import { getRandomIndexFromArray, getTilesWithoutSnake } from "./support functions.js";
 
