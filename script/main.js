@@ -1,4 +1,4 @@
-// import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
+import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
 
 import { TileMap } from './tileMap.js';
 import { Snake } from './snake.js';
@@ -14,7 +14,7 @@ import {
 
 import { optPlatform } from "./config geometry.js";
 
-const proportion = optCamera.z / optPlatform.sizeZ;
+// const proportion = optCamera.z / optPlatform.sizeZ;
 
 class World {
   constructor() {
@@ -63,7 +63,6 @@ class World {
 
     const ambLight = new THREE.AmbientLight(optAmbLight.color, optAmbLight.inten);
     ambLight.position.set(optAmbLight.x, optAmbLight.y, optAmbLight.z);
-    // ambLight.castShadow = true;
     this.scene.add(ambLight);
 
     const dirLight = new THREE.DirectionalLight(optDirLight.color, optDirLight.inten, 500, 0.01);
@@ -72,9 +71,9 @@ class World {
     this.scene.add(dirLight);
 
 
-    // const controls = new OrbitControls(this.camera, this.renderer.domElement);
-    // controls.target.set(0, 0, 0);
-    // controls.update();
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.target.set(0, 0, 0);
+    this.controls.update();
 
     this.tileMap = new TileMap();
     this.platform = new Platform({scene: this.scene});
@@ -99,10 +98,6 @@ class World {
       return;
     }
     this.snake.update();
-
-    //1 version follow camera */very bed!!!/*
-    // this.camera.position.x = this.snake.headMesh.position.x * proportion;
-    // this.camera.position.y = this.snake.headMesh.position.y * proportion;
   }
 
   RAF() {
