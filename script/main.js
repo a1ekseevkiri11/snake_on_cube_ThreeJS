@@ -63,7 +63,7 @@ class World {
 
     const ambLight = new THREE.AmbientLight(optAmbLight.color, optAmbLight.inten);
     ambLight.position.set(optAmbLight.x, optAmbLight.y, optAmbLight.z);
-    ambLight.castShadow = true;
+    // ambLight.castShadow = true;
     this.scene.add(ambLight);
 
     const dirLight = new THREE.DirectionalLight(optDirLight.color, optDirLight.inten, 500, 0.01);

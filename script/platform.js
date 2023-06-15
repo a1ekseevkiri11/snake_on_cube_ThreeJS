@@ -13,8 +13,6 @@ export class Platform{
                 color: optPlatform.color
             }),
         );
-        this.platformMesh.castShadow = true;
-        this.platformMesh.receiveShadow = true;
         this.platformMesh.position.set(0, 0, 0);
         this.params.scene.add(this.platformMesh);
     }

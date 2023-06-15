@@ -14,7 +14,7 @@ export const optHeadSnake = {
 	sizeY: 0.91 * optVoxel.sizeY,
 	sizeZ: 0.91 * optVoxel.sizeZ,
 	color: 0x80FFFF,
-	spead: 0.01,
+	spead: 0.1,
 }
 
 export const optTailSnake = {

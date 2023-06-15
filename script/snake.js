@@ -4,8 +4,6 @@ import { rotation } from "./support functions.js";
 import { GameOverSound, GameStartSound } from './sound.js';
 import { optCamera } from "./config scene.js";
 
-const proportionRotation = optCamera.z / optPlatform.sizeZ * 0.075;
-
 export class Snake {
     
     constructor(params, tileMap, berry) {
@@ -210,8 +208,9 @@ export class Snake {
     }
     
     update() {
-        if(!this.dead){
-            if (this.clock.getElapsedTime() > optHeadSnake.spead){
+        let delta = this.clock.getElapsedTime();
+        if(!this.dead){ 
+            if (delta > optHeadSnake.spead){
                 this.clock.start();
                 for(let i = this.tail.length - 1; i >= 1; i--){
                     this.tail[i].position.copy(this.tail[i - 1].position);
@@ -238,8 +237,9 @@ export class Snake {
                 this.headMesh.position.copy(this.tileMap.plane.plane2[this.position.indexHeight][this.position.indexWidth]);
                 this.tail[0].position.copy(this.headMesh.position);
                 this.checkColisions();
-                this.params.scene.rotation.y = (-this.headMesh.position.x * proportionRotation);
-                this.params.scene.rotation.x = (this.headMesh.position.y * proportionRotation);
+                this.params.scene.rotation.y = -this.headMesh.position.x * (Math.PI / (2 * this.tileMap.plane.plane2.length));
+                this.params.scene.rotation.x = this.headMesh.position.y * (Math.PI / (2 * this.tileMap.plane.plane2[0].length));
+                
             }
         }
         

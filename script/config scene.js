@@ -3,7 +3,7 @@ import { optPlatform } from './config geometry.js'
 export const optCamera = {
 	x: 0,
 	y: 0,
-	z: 10 + optPlatform.sizeZ,
+	z: 2 * optPlatform.sizeZ,
 	fov: 65,
 	near: 0.1,
 	far: 1000,
