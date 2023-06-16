@@ -29,10 +29,81 @@ body{
     width: 100%;
     height: 100%;
     position: absolute;
+    z-index: 1;
     font-family: 'Press Start 2P', cursive;
 }
 
+/**/
+
+.score-layout {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-top: 20px;
+}
+
+.record-score-text{
+    font-size: 20px;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 3px 3px black;
+    margin-right: 20px;
+}
+
+.score-text {
+    font-size: 20px;
+    color: white;
+    text-shadow: 3px 3px black;
+    margin-right: 20px;
+}
+
+
+/**/
+
+.button-layout{
+    position: absolute;
+    width: 100%;
+    margin-top: 20px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.sound{
+    width: 50px;
+    height: 50px;
+    background-image: url('img/Soundless.png');
+    background-color:#00000000;
+    border: 0;
+    background-size: cover;
+    margin-bottom: 20px;
+}
+
+.sound.active{
+    background-image: url('img/Sound.png');
+}
+
+#restart{
+    width: 50px;
+    height: 50px;
+    background-image: url('img/Restart.png');
+    background-color:#00000000;
+    border: 0;
+    background-size: cover;
+}
+
+
+/**/
+
 .game-over-layout {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     opacity: 0.0;
     display: none;
 }
@@ -40,8 +111,6 @@ body{
 .game-over-layout.active {
     opacity: 1.0;
     visibility: hidden;
-    width: 100%;
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,45 +137,27 @@ body{
 }
 
 
-.score-layout {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
-}
+@media (max-width: 700px) {
 
-.score-text {
-    font-size: 20px;
-    color: white;
-    margin-right: 20px;
-    text-shadow: 3px 3px black;
-}
+    .score-layout {
+        margin-top: 15px;
+    }
 
-.record-score-text{
-    font-size: 20px;
-    color: white;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-right: 20px;
-    text-shadow: 3px 3px black;
-}
+    .score-text {
+        font-size: 15px;
+        text-shadow: 3px 3px black;
+        margin-right: 15px;
+    }
 
-.sound{
-    width: 50px;
-    height: 50px;
-     background-image: url('img/Soundless.png');
-    background-color:#00000000;
-    border: 0;
-    background-size: cover;
-    margin-top: 20px;
-    margin-left: 20px;
-}
+    .record-score-text{
+        font-size: 15px;
+        text-shadow: 3px 3px black;
+        margin-bottom: 15px;
+        margin-right: 15px;
+    }
 
-.sound.active{
-    background-image: url('img/Sound.png');
-}
+    /**/
 
-@media (max-width: 800px) {
     .game-restart-text{
         font-size: 15px;
         text-shadow: 2px 2px black;
@@ -117,11 +168,7 @@ body{
         margin-bottom: 10px;
     }
 
-    .score-text {
-        font-size: 15px;
-        margin-right: 15px;
-        text-shadow: 3px 3px black;
-    }
+    /**/
 
     .record-score-text{
         font-size: 15px;
@@ -131,11 +178,29 @@ body{
         text-shadow: 3px 3px black;
     }
 
+    .button-layout{
+        margin-top: 15px;
+        margin-left: 15px;
+    }
 
     .sound{
         width: 30px;
         height: 30px;
-        margin-top: 15px;
-        margin-left: 15px;
+        margin-bottom: 15px;
+    }
+
+    #restart{
+        width: 30px;
+        height: 30px;
     }
 }
+
+
+@media (max-width: 400px) {
+    .game-over-text {
+        font-size: 35px;
+        text-shadow: 4px 4px black;
+        margin-bottom: 10px;
+    }
+}
+

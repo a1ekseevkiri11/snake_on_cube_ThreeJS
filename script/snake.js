@@ -8,7 +8,6 @@ export class Snake {
     
     constructor(params, tileMap, berry) {
         this.params = params;
-        console.log(this.params);
         this.tileMap = tileMap;
         this.berry = berry;
         this.score = new Score();
@@ -209,9 +208,6 @@ export class Snake {
     
     update() {
         let delta = this.clock.getElapsedTime();
-        //попытка синхронизации поворота сцены и обновления экрана (неудачно)
-        // this.params.scene.rotation.y = -(this.headMesh.position.x - this.params.scene.rotation.y * (optHeadSnake.spead - delta)) * (Math.PI / (2 * this.tileMap.plane.plane2.length));
-        // this.params.scene.rotation.x = (this.headMesh.position.y - this.params.scene.rotation.x * (optHeadSnake.spead - delta)) * (Math.PI / (2 * this.tileMap.plane.plane2[0].length));
         if(!this.dead){ 
             if (delta > optHeadSnake.spead){
                 this.clock.start();
@@ -241,7 +237,7 @@ export class Snake {
                 this.tail[0].position.copy(this.headMesh.position);
                 this.checkColisions();
                 this.params.scene.rotation.x = this.headMesh.position.y * (Math.PI / (4 * this.tileMap.plane.plane2.length));
-                this.params.scene.rotation.y = -this.headMesh.position.x * (Math.PI / (2 * this.tileMap.plane.plane2.length));
+                this.params.scene.rotation.y = -this.headMesh.position.x * (Math.PI / (4 * this.tileMap.plane.plane2.length));
             }
         }
     }

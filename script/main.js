@@ -12,8 +12,7 @@ import {
   optDirLight,
 } from "./config scene.js";
 
-import { optPlatform } from "./config geometry.js";
-
+// import { optPlatform } from "./config geometry.js";
 // const proportion = optCamera.z / optPlatform.sizeZ;
 
 class World {
@@ -26,6 +25,11 @@ class World {
     document.getElementById("game-restart").addEventListener("click", () => {
       this.restart()
     });
+
+    document.getElementById("restart").addEventListener("click", () => {
+      this.restart()
+    });
+
     document.addEventListener("keydown",  (e) => {
       if(e.code === "KeyR"){
         this.restart();
