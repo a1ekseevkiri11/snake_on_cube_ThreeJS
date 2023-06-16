@@ -22,9 +22,6 @@ class World {
   }
 
   initInput(){
-    document.getElementById("game-restart").addEventListener("click", () => {
-      this.restart()
-    });
 
     document.getElementById("restart").addEventListener("click", () => {
       this.restart()

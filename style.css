@@ -42,13 +42,12 @@ body{
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
-    margin-top: 20px;
 }
 
 .record-score-text{
+    margin-top: 20px;
     font-size: 20px;
     color: white;
-    margin-bottom: 20px;
     text-shadow: 3px 3px black;
     margin-right: 20px;
 }
@@ -66,8 +65,6 @@ body{
 .button-layout{
     position: absolute;
     width: 100%;
-    margin-top: 20px;
-    margin-left: 20px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -75,13 +72,14 @@ body{
 }
 
 .sound{
+    margin-top: 20px;
+    margin-left: 20px;
     width: 50px;
     height: 50px;
     background-image: url('img/Soundless.png');
     background-color:#00000000;
     border: 0;
     background-size: cover;
-    margin-bottom: 20px;
 }
 
 .sound.active{
@@ -89,6 +87,8 @@ body{
 }
 
 #restart{
+    margin-top: 20px;
+    margin-left: 20px;
     width: 50px;
     height: 50px;
     background-image: url('img/Restart.png');
@@ -96,7 +96,6 @@ body{
     border: 0;
     background-size: cover;
 }
-
 
 /**/
 
@@ -137,22 +136,19 @@ body{
 }
 
 
-@media (max-width: 700px) {
-
-    .score-layout {
+@media (max-width: 800px) {
+    
+    .record-score-text{
+        font-size: 15px;
+        text-shadow: 3px 3px black;
         margin-top: 15px;
+        margin-right: 15px;
     }
 
     .score-text {
         font-size: 15px;
         text-shadow: 3px 3px black;
-        margin-right: 15px;
-    }
-
-    .record-score-text{
-        font-size: 15px;
-        text-shadow: 3px 3px black;
-        margin-bottom: 15px;
+        margin-top: 15px;
         margin-right: 15px;
     }
 
@@ -170,37 +166,17 @@ body{
 
     /**/
 
-    .record-score-text{
-        font-size: 15px;
-        margin-top: 15px;
-        margin-bottom: 15px;
-        margin-right: 15px;
-        text-shadow: 3px 3px black;
-    }
-
-    .button-layout{
-        margin-top: 15px;
-        margin-left: 15px;
-    }
-
     .sound{
         width: 30px;
         height: 30px;
-        margin-bottom: 15px;
+        margin-top: 15px;
+        margin-left: 15px;
     }
 
     #restart{
         width: 30px;
         height: 30px;
+        margin-top: 15px;
+        margin-left: 15px;
     }
 }
-
-
-@media (max-width: 400px) {
-    .game-over-text {
-        font-size: 35px;
-        text-shadow: 4px 4px black;
-        margin-bottom: 10px;
-    }
-}
-

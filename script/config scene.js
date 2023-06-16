@@ -3,7 +3,7 @@ import { optPlatform } from './config geometry.js'
 export const optCamera = {
 	x: 0,
 	y: 0,
-	z: 20 + optPlatform.sizeZ,
+	z: 3 * optPlatform.sizeZ,
 	fov: 65,
 	near: 0.1,
 	far: 1000,
@@ -19,8 +19,8 @@ export const optScene = {
 
 export const optDirLight = {
 	x: 0,
-	y: 10,
-	z: 60,
+	y: 0,
+	z: 3 * optPlatform.sizeZ,
 	color: 0xffffff,
 	inten: 1,
 }
