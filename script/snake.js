@@ -75,16 +75,11 @@ export class Snake {
         //звук
         if(localStorage.getItem('muted') === 'noisy'){
             this.muted = localStorage.getItem('muted');
+            document.getElementById('muted').classList.add('active');
         }
         else{
             this.muted = 'muted';
-        }
-
-        if(this.muted === 'muted'){
             document.getElementById('muted').classList.remove('active');
-        }
-        else{
-            document.getElementById('muted').classList.add('active');
         }
 
         document.getElementById("muted").addEventListener("click", () => {
@@ -111,8 +106,6 @@ export class Snake {
             }),
         );
         this.headMesh.name = "head";
-        this.headMesh.castShadow = true;
-        this.headMesh.receiveShadow = true;
         this.params.scene.add(this.headMesh);
         for(let i = 0; i < optTailSnake.initLength; i++){
             this.grow();
@@ -128,8 +121,6 @@ export class Snake {
             }),
         );
         mesh.name = "tail";
-        mesh.castShadow = true;
-        mesh.receiveShadow = true;
         this.tail.push(mesh);
         this.params.scene.add(this.tail[this.tail.length - 1]);
     }
@@ -160,6 +151,7 @@ export class Snake {
             this.headMesh.position.y ===  this.berry.meshBerry.position.y &&
             this.headMesh.position.z ===  this.berry.meshBerry.position.z){
                 if(this.muted !== 'muted'){
+                    this.berry.sound.load();
                     this.berry.sound.play();
                 }
                 if(this.berry.typeBerry === 'unfoldBerry'){
@@ -206,38 +198,37 @@ export class Snake {
     }
     
     update() {
-        let delta = this.clock.getElapsedTime();
-        if(!this.dead){ 
-            if (delta > optHeadSnake.spead){
-                this.clock.start();
-                for(let i = this.tail.length - 1; i >= 1; i--){
-                    this.tail[i].position.copy(this.tail[i - 1].position);
-                }
-                switch(this.direction){
-                    case 'up':
-                        this.position.indexHeight++;
-                        this.forbiddenDirection = 'down';
-                        break;
-                    case 'down':
-                        this.position.indexHeight--;
-                        this.forbiddenDirection = 'up';
-                        break;
-                    case 'left':
-                        this.position.indexWidth--;
-                        this.forbiddenDirection = 'right';
-                        break;
-                    case 'right':
-                        this.position.indexWidth++;
-                        this.forbiddenDirection = 'left';
-                        break;
-                }
-                this.checkPlane();
-                this.headMesh.position.copy(this.tileMap.plane.plane2[this.position.indexHeight][this.position.indexWidth]);
-                this.tail[0].position.copy(this.headMesh.position);
-                this.checkColisions();
-                this.params.scene.rotation.x = this.headMesh.position.y * (Math.PI / (4 * this.tileMap.plane.plane2.length));
-                this.params.scene.rotation.y = -this.headMesh.position.x * (Math.PI / (4 * this.tileMap.plane.plane2.length));
+        if (this.clock.getElapsedTime() > optHeadSnake.spead){
+            this.clock.start();
+            for(let i = this.tail.length - 1; i >= 1; i--){
+                this.tail[i].position.copy(this.tail[i - 1].position);
             }
+            switch(this.direction){
+                case 'up':
+                    this.position.indexHeight++;
+                    this.forbiddenDirection = 'down';
+                    break;
+                case 'down':
+                    this.position.indexHeight--;
+                    this.forbiddenDirection = 'up';
+                    break;
+                case 'left':
+                    this.position.indexWidth--;
+                    this.forbiddenDirection = 'right';
+                    break;
+                case 'right':
+                    this.position.indexWidth++;
+                    this.forbiddenDirection = 'left';
+                    break;
+            }
+            this.checkPlane();
+            this.headMesh.position.copy(this.tileMap.plane.plane2[this.position.indexHeight][this.position.indexWidth]);
+            this.tail[0].position.copy(this.headMesh.position);
+            this.checkColisions();
+            return true;
+        }
+        else{
+            return false;
         }
     }
 

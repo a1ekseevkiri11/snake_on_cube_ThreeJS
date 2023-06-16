@@ -56,45 +56,8 @@ body{
     font-size: 20px;
     color: white;
     text-shadow: 3px 3px black;
+    margin-top: 20px;
     margin-right: 20px;
-}
-
-
-/**/
-
-.button-layout{
-    position: absolute;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-}
-
-.sound{
-    margin-top: 20px;
-    margin-left: 20px;
-    width: 50px;
-    height: 50px;
-    background-image: url('img/Soundless.png');
-    background-color:#00000000;
-    border: 0;
-    background-size: cover;
-}
-
-.sound.active{
-    background-image: url('img/Sound.png');
-}
-
-#restart{
-    margin-top: 20px;
-    margin-left: 20px;
-    width: 50px;
-    height: 50px;
-    background-image: url('img/Restart.png');
-    background-color:#00000000;
-    border: 0;
-    background-size: cover;
 }
 
 /**/
@@ -133,6 +96,57 @@ body{
     color: white;
     text-shadow: 8px 8px black;
     margin-bottom: 10px;
+}
+
+/**/
+
+.button-layout{
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.sound{
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 50px;
+    height: 50px;
+    background-image: url('img/Soundless.png');
+    background-color:#00000000;
+    border: 0;
+    background-size: cover;
+}
+
+.sound.active{
+    background-image: url('img/Sound.png');
+}
+
+#restart{
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 50px;
+    height: 50px;
+    background-image: url('img/Restart.png');
+    background-color:#00000000;
+    border: 0;
+    background-size: cover;
+}
+
+#camera{
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 50px;
+    height: 50px;
+    background-color:#00000000;
+    border: 0;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 20px;
+    color: white;
+    text-shadow: 3px 3px black;
+    border: none;
 }
 
 
@@ -178,5 +192,13 @@ body{
         height: 30px;
         margin-top: 15px;
         margin-left: 15px;
+    }
+
+    #camera{
+        width: 30px;
+        height: 30px;
+        margin-top: 15px;
+        margin-left: 15px;
+        font-size: 12px;
     }
 }

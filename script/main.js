@@ -1,4 +1,4 @@
-import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
+// import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
 
 import { TileMap } from './tileMap.js';
 import { Snake } from './snake.js';
@@ -12,11 +12,14 @@ import {
   optDirLight,
 } from "./config scene.js";
 
-// import { optPlatform } from "./config geometry.js";
+
+
+import { optHeadSnake} from "./config geometry.js";
 // const proportion = optCamera.z / optPlatform.sizeZ;
 
 class World {
   constructor() {
+    this.clock =  new THREE.Clock();
     this.initialize();
     this.initInput();
   }
@@ -26,15 +29,36 @@ class World {
     document.getElementById("restart").addEventListener("click", () => {
       this.restart()
     });
-
+    
     document.addEventListener("keydown",  (e) => {
       if(e.code === "KeyR"){
         this.restart();
       }
     });
+
+
+    if(localStorage.getItem('camera') === '2D'){
+      this.followCameraFlag = localStorage.getItem('camera');
+      document.getElementById('camera').textContent = "2D";
+    }
+    else{
+      this.muted = '3D';
+      document.getElementById('camera').textContent = "3D";
+    }
+
+    document.getElementById("camera").addEventListener("click", () => {
+      if(this.followCameraFlag === "3D"){
+        this.followCameraFlag = "2D";
+        document.getElementById('camera').textContent = "2D";
+        return;
+      }
+      this.followCameraFlag = "3D";
+      document.getElementById('camera').textContent = "3D";
+    });
   }
 
   restart(){
+    localStorage.setItem('camera', this.followCameraFlag);
     document.getElementById('game-over').classList.remove('active');
     this.snake.deleteSnake();
     this.initObject();
@@ -72,11 +96,12 @@ class World {
     this.scene.add(dirLight);
 
 
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls.target.set(0, 0, 0);
-    this.controls.update();
+    // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    // this.controls.target.set(0, 0, 0);
+    // this.controls.update();
 
     this.tileMap = new TileMap();
+    this.angleRotationCamera = Math.PI / (4 * this.tileMap.plane.plane2.length);
     this.platform = new Platform({scene: this.scene});
     this.initObject();
     this.RAF();
@@ -98,7 +123,26 @@ class World {
       document.getElementById('game-over').classList.add('active');
       return;
     }
-    this.snake.update();
+    let previousSnakeHeadPosition = this.snake.headMesh.position;
+    if(this.snake.update()){
+      this.clock.start();
+    }
+    if(this.followCameraFlag === "3D"){
+      this.followCamera(previousSnakeHeadPosition, this.snake.headMesh.position);
+    }
+    else if(this.scene.rotation.x !== 0 ||
+      this.scene.rotation.y !== 0 ||
+      this.scene.rotation.z !== 0){
+        this.scene.rotation.x = 0;
+        this.scene.rotation.y = 0;
+        this.scene.rotation.z = 0;
+    }
+  }
+
+  followCamera(pos1, pos2){
+    let delta = this.clock.getDelta();
+    this.scene.rotation.y = -(pos2.x - pos1.x * (optHeadSnake.spead - delta)) * this.angleRotationCamera;
+    this.scene.rotation.x = (pos2.y - pos1.y * (optHeadSnake.spead - delta)) * this.angleRotationCamera;
   }
 
   RAF() {
