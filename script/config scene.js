@@ -1,11 +1,13 @@
-import { optPlatform } from './config geometry.js'
+import { optPlatform } from './config geometry.js';
+import { zCoordinatCamera } from './support functions.js';
+
 
 export const optCamera = {
 	x: 0,
 	y: 0,
-	z: 3 * optPlatform.sizeZ,
+	z: optPlatform.sizeZ * zCoordinatCamera(),
 	fov: 65,
-	near: 0.1,
+	near: 0.5,
 	far: 1000,
 }
 
@@ -14,6 +16,7 @@ export const optScene = {
 	y: 0,
 	z: 0,
 	color: 0x008B8B,
+	angleRotation: Math.PI / (4 * optPlatform.sizeX),
 }
 
 

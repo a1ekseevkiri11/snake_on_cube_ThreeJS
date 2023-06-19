@@ -225,10 +225,6 @@ export class Snake {
             this.headMesh.position.copy(this.tileMap.plane.plane2[this.position.indexHeight][this.position.indexWidth]);
             this.tail[0].position.copy(this.headMesh.position);
             this.checkColisions();
-            return true;
-        }
-        else{
-            return false;
         }
     }
 

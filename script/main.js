@@ -19,6 +19,7 @@ import { optHeadSnake} from "./config geometry.js";
 
 class World {
   constructor() {
+    console.log(optCamera.z);
     this.clock =  new THREE.Clock();
     this.initialize();
     this.initInput();
@@ -39,21 +40,21 @@ class World {
 
     if(localStorage.getItem('camera') === '2D'){
       this.followCameraFlag = localStorage.getItem('camera');
-      document.getElementById('camera').textContent = "2D";
+      document.getElementById('camera').textContent = this.followCameraFlag;
     }
     else{
-      this.muted = '3D';
-      document.getElementById('camera').textContent = "3D";
+      this.followCameraFlag = '3D';
+      document.getElementById('camera').textContent = this.followCameraFlag;
     }
 
     document.getElementById("camera").addEventListener("click", () => {
       if(this.followCameraFlag === "3D"){
         this.followCameraFlag = "2D";
-        document.getElementById('camera').textContent = "2D";
+        document.getElementById('camera').textContent = this.followCameraFlag;
         return;
       }
       this.followCameraFlag = "3D";
-      document.getElementById('camera').textContent = "3D";
+      document.getElementById('camera').textContent = this.followCameraFlag;
     });
   }
 
@@ -101,7 +102,6 @@ class World {
     // this.controls.update();
 
     this.tileMap = new TileMap();
-    this.angleRotationCamera = Math.PI / (4 * this.tileMap.plane.plane2.length);
     this.platform = new Platform({scene: this.scene});
     this.initObject();
     this.RAF();
@@ -123,10 +123,11 @@ class World {
       document.getElementById('game-over').classList.add('active');
       return;
     }
-    let previousSnakeHeadPosition = this.snake.headMesh.position;
-    if(this.snake.update()){
+    const previousSnakeHeadPosition = this.snake.headMesh.position;
+    if(optHeadSnake.spead < this.clock.getDelta()){
       this.clock.start();
     }
+    this.snake.update();
     if(this.followCameraFlag === "3D"){
       this.followCamera(previousSnakeHeadPosition, this.snake.headMesh.position);
     }
@@ -141,8 +142,8 @@ class World {
 
   followCamera(pos1, pos2){
     let delta = this.clock.getDelta();
-    this.scene.rotation.y = -(pos2.x - pos1.x * (optHeadSnake.spead - delta)) * this.angleRotationCamera;
-    this.scene.rotation.x = (pos2.y - pos1.y * (optHeadSnake.spead - delta)) * this.angleRotationCamera;
+    this.scene.rotation.y = -(pos2.x - pos1.x * (optHeadSnake.spead - delta)) * optScene.angleRotation;
+    this.scene.rotation.x = (pos2.y - pos1.y * (optHeadSnake.spead - delta)) * optScene.angleRotation;
   }
 
   RAF() {

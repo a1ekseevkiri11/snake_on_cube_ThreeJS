@@ -15,7 +15,6 @@ export function rotation(object, directionRotation){
     }
 }
 
-
 export function rotationPlane(plane, directionRotation){
     let newPlane = [];
     for(let i = 0; i < plane.length; i++){
@@ -41,11 +40,9 @@ export function rotationPlane(plane, directionRotation){
     return newPlane;
 }
 
-
 export function getRandomIndexFromArray(array){
     return Math.floor(Math.random() * array.length);
 }
-
 
 export function getTilesWithoutSnake(tail, plane){
     let tailArray = tail.slice();
@@ -105,4 +102,9 @@ export function getTilesWithoutSnake(tail, plane){
         }
     }
     return arrayTileFromPlane;
+}
+
+export function zCoordinatCamera(){
+	if(document.body.getBoundingClientRect().width > 800) return 2;
+	return 3;
 }
