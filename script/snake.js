@@ -73,24 +73,26 @@ export class Snake {
 
 
         //звук
-        if(localStorage.getItem('muted') === 'noisy'){
-            this.muted = localStorage.getItem('muted');
-            document.getElementById('muted').classList.add('active');
-        }
-        else{
-            this.muted = 'muted';
-            document.getElementById('muted').classList.remove('active');
-        }
+        this.muted = 'muted';
+        document.getElementById('muted').classList.remove('active');
+        // if(localStorage.getItem('muted') === 'noisy'){
+        //     this.muted = localStorage.getItem('muted');
+        //     document.getElementById('muted').classList.add('active');
+        // }
+        // else{
+        //     this.muted = 'muted';
+        //     document.getElementById('muted').classList.remove('active');
+        // }
 
-        document.getElementById("muted").addEventListener("click", () => {
-            if(this.muted !== 'noisy'){
-                document.getElementById('muted').classList.add('active');
-                this.muted = 'noisy';
-                return;
-            }
-            document.getElementById('muted').classList.remove('active');
-            this.muted = 'muted';
-        });
+        // document.getElementById("muted").addEventListener("click", () => {
+        //     if(this.muted !== 'noisy'){
+        //         document.getElementById('muted').classList.add('active');
+        //         this.muted = 'noisy';
+        //         return;
+        //     }
+        //     document.getElementById('muted').classList.remove('active');
+        //     this.muted = 'muted';
+        // });
     }
 
     initSnake(){
