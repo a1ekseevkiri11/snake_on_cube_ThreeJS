@@ -1,7 +1,6 @@
-import { optHeadSnake, optTailSnake, optPlatform } from "./config geometry.js";
+import { optHeadSnake, optTailSnake } from "./config geometry.js";
 import { Score } from './score.js';
 import { rotation } from "./support functions.js";
-import { GameOverSound, GameStartSound } from './sound.js';
 
 export class Snake {
     

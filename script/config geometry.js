@@ -1,4 +1,3 @@
-import { CommonBerrySound, SuperBerrySound, UnfoldBerrySound } from './sound.js';
 import { optVoxel } from './config voxel.js';
 
 //only cube
