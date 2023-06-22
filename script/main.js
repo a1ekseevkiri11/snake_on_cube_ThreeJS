@@ -19,7 +19,6 @@ import { optHeadSnake} from "./config geometry.js";
 
 class World {
   constructor() {
-    console.log(optCamera.z);
     this.clock =  new THREE.Clock();
     this.initialize();
     this.initInput();
