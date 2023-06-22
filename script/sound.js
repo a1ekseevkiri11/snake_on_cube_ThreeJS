@@ -1,9 +1,9 @@
-const CommonBerrySound = new Audio('../sound/CommonBerrySound.mp3');
+export const CommonBerrySound = new Audio('../sound/CommonBerrySound.wav');
 
-const SuperBerrySound = new Audio('../sound/SuperBerrySound.mp3');
+export const SuperBerrySound = new Audio('../sound/SuperBerrySound.wav');
 
-const UnfoldBerrySound = new Audio('../sound/UnfoldBerrySound.mp3');
+export const UnfoldBerrySound = new Audio('../sound/UnfoldBerrySound.wav');
 
-const GameOverSound = new Audio('../sound/GameOverSound.mp3');
+export const GameOverSound = new Audio('../sound/GameOverSound.wav');
 
-const GameStartSound = new Audio('../sound/GameStartSound.mp3');
+export const GameStartSound = new Audio('../sound/GameStartSound.wav');
